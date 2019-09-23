@@ -9,6 +9,7 @@ dist
 # development
 .idea
 .rpt2_cache
+/react-lattice-*.tgz
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
