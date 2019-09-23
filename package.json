@@ -25,7 +25,8 @@
   "peerDependencies": {
     "prop-types": "^15.5.4",
     "react": "^16.0.0",
-    "react-dom": "^16.0.0"
+    "react-dom": "^16.0.0",
+    "react-jss": "^10.0.0"
   },
   "devDependencies": {
     "@svgr/rollup": "^4.3.2",
@@ -38,6 +39,7 @@
     "gh-pages": "^2.1.1",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
+    "react-jss": "^10.0.0",
     "react-scripts-ts": "^3.1.0",
     "rollup": "^1.21.4",
     "rollup-plugin-babel": "^4.3.3",
