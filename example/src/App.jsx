@@ -1,7 +1,8 @@
 // imports
-import React, {Component} from "react";
+import React from "react";
 import {createUseStyles} from "react-jss";
 import {BasicLayout} from "./BasicLayout";
+import {WrapLayout} from "./WrapLayout";
 
 
 // component
@@ -14,6 +15,7 @@ export const App = () => {
     return (
         <div className={classes.container}>
             <BasicLayout/>
+            <WrapLayout/>
         </div>
     );
 }
