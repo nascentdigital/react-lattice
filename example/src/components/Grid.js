@@ -1,6 +1,6 @@
 // imports
-import {Grid} from "react-lattice";
+import {createGrid} from "react-lattice";
 
 
 // exports
-export {Grid};
+export const Grid = createGrid();

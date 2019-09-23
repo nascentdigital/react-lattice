@@ -9,6 +9,7 @@ import {GridStyle} from "./GridStyle";
 import {
     ContentAlignment,
     Direction,
+    GridOptions,
     ItemAlignment,
     ItemColumn,
     ItemFlex,
@@ -36,12 +37,15 @@ export interface Props extends HTMLAttributes<HTMLDivElement> {
     order?: ItemOrder | ResponsiveValue<ItemOrder>
 }
 
-// create style
-const gridStyle = new GridStyle();
-const useStyles = createUseStyles(gridStyle.create());
+// factory method
+export function createGrid(options?: GridOptions): React.FC<Props> {
+
+    // create style
+    const gridStyle = new GridStyle(options);
+    const useStyles = createUseStyles(gridStyle.create());
 
     // component definition
- export const Grid = (props: Props) => {
+    return (props: Props) => {
 
         // resolve props
         const {
@@ -66,7 +70,6 @@ const useStyles = createUseStyles(gridStyle.create());
         const classNames = [];
 
         // apply container styles (if applicable)
-        // TODO: get this working
         const classes = useStyles(props);
         if (container) {
 
@@ -143,4 +146,4 @@ const useStyles = createUseStyles(gridStyle.create());
             },
             children);
     };
-
+}
