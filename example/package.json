@@ -1,20 +1,26 @@
 {
-  "name": "react-lattice-example",
-  "homepage": "https://sdedios.github.io/react-lattice",
-  "version": "0.0.0",
-  "license": "MIT",
-  "private": true,
-  "dependencies": {
-    "prop-types": "^15.6.2",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
-    "react-jss": "^10.0.0",
-    "react-lattice": "file:../react-lattice-1.0.0.tgz",
-    "react-scripts": "^1.1.4"
-  },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom"
-  }
+    "name": "react-lattice-example",
+    "homepage": "https://nascentdigital.github.io/react-lattice",
+    "version": "0.0.0",
+    "author": "sdedios",
+    "license": "MIT",
+    "private": true,
+    "dependencies": {
+        "prop-types": "^15.6.2",
+        "react": "^16.9.0",
+        "react-dom": "^16.9.0",
+        "react-jss": "^10.0.0",
+        "react-lattice": "file:../react-lattice-1.0.0.tgz",
+        "react-scripts": "^1.1.4"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test --env=jsdom",
+        "predeploy": "npm run build",
+        "deploy": "gh-pages -d build"
+    },
+    "devDependencies": {
+        "gh-pages": "^2.1.1"
+    }
 }
