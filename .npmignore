@@ -3,13 +3,17 @@
 node_modules
 
 # production
-build
-dist
+/build
+/example
+/src
+/rollup.config.js
 
 # development
+.editorconfig
 .idea
 .vscode
 .rpt2_cache
+.travis.yml
 /react-lattice-*.tgz
 npm-debug.log*
 yarn-debug.log*

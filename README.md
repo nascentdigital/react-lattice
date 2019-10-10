@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-npm install --save react-lattice
+npm i -s react-lattice
 ```
 
 ## Usage
