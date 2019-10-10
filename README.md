@@ -13,19 +13,31 @@ npm install --save react-lattice
 ## Usage
 
 ```tsx
-import * as React from 'react'
+// imports
+import * as React from "react";
+import {createGrid} from "react-lattice";
 
-import MyComponent from 'react-lattice'
+// define Grid (can be customized)
+const Grid = createGrid();
 
-class Example extends React.Component {
-  render () {
+
+// component
+export const Page = () => {
+
+    // render
     return (
-      <MyComponent />
-    )
-  }
-}
+        <Grid container justify="spaceEvenly" alignItems="center">
+            <Grid item flex={{xs: 12, md: 6}}>                  
+                Left (desktop), Top (mobile + tablet)                
+            </Grid>
+            <Grid item flex={{xs: 12, md: 6}}>                  
+                Right (desktop), Bottom (mobile + tablet)                
+            </Grid>
+        </Grid>
+    );
+};
 ```
 
 ## License
 
-MIT © [sdedios](https://github.com/sdedios)
+MIT © [Nascent Digital](https://github.com/nascentdigital)
