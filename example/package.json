@@ -10,7 +10,7 @@
         "react": "^16.9.0",
         "react-dom": "^16.9.0",
         "react-jss": "^10.0.0",
-        "react-lattice": "file:../react-lattice-1.0.1.tgz",
+        "react-lattice": "file:../react-lattice-1.0.3.tgz",
         "react-scripts": "^1.1.4"
     },
     "scripts": {

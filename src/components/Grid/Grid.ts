@@ -42,9 +42,7 @@ export function createGrid(options?: GridOptions): React.FC<Props> {
 
     // create style
     const gridStyle = new GridStyle(options);
-    const useStyles = createUseStyles(gridStyle.create(), {
-            generateId: rule => rule.key
-    });
+    const useStyles = createUseStyles(gridStyle.create());
 
     // component definition
     return (props: Props) => {
@@ -76,32 +74,32 @@ export function createGrid(options?: GridOptions): React.FC<Props> {
         if (container) {
 
             // add base class
-            classNames.push(gridStyle.getContainerClass());
+            classNames.push(classes[gridStyle.getContainerClass()]);
 
             // add content layout classes
             gridStyle.getContainerDirectionClasses(direction)
                 .forEach(key => {
-                    classNames.push(key);
+                    classNames.push(classes[key]);
                 });
 
             gridStyle.getContainerWrappingClasses(wrap)
                 .forEach(key => {
-                    classNames.push(key);
+                    classNames.push(classes[key]);
                 });
 
             gridStyle.getContainerJustificationClasses(justify)
                 .forEach(key => {
-                    classNames.push(key);
+                    classNames.push(classes[key]);
                 });
 
             gridStyle.getContainerContentAlignmentClasses(alignContent)
                 .forEach(key => {
-                    classNames.push(key);
+                    classNames.push(classes[key]);
                 });
 
             gridStyle.getContainerItemAlignmentClasses(alignItems)
                 .forEach(key => {
-                    classNames.push(key);
+                    classNames.push(classes[key]);
                 });
 
             let spacingValues = isResponsiveValue(spacing)
@@ -109,7 +107,7 @@ export function createGrid(options?: GridOptions): React.FC<Props> {
                 : {xs: spacing, sm: spacing, md: spacing, lg: spacing, xl: spacing};
             gridStyle.getContainerSpacingClasses(spacingValues)
                 .forEach(key => {
-                    classNames.push(key);
+                    classNames.push(classes[key]);
                 });
         }
 
@@ -122,15 +120,15 @@ export function createGrid(options?: GridOptions): React.FC<Props> {
             // add layout classes
             gridStyle.getItemOrderClasses(order)
                 .forEach(key => {
-                    classNames.push(key);
+                    classNames.push(classes[key]);
                 });
             gridStyle.getItemOffsetClasses(offset)
                 .forEach(key => {
-                    classNames.push(key);
+                    classNames.push(classes[key]);
                 });
             gridStyle.getItemFlexClasses(flex)
                 .forEach(key => {
-                    classNames.push(key);
+                    classNames.push(classes[key]);
                 });
         }
 

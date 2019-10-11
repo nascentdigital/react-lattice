@@ -97,8 +97,12 @@ export class GridStyle {
 
             // target correct media query (or use fallback for XS)
             const breakpointName: string = Breakpoint[breakpoint];
+            let styleDecl: any = {};
             let style: any = styles;
             if (breakpoint !== Breakpoint.xs) {
+
+                // make style declaration point to core styles
+                styleDecl = styles;
 
                 // create style for media query
                 style = {};
@@ -109,37 +113,49 @@ export class GridStyle {
 
             // add container styles
             for (const value of DirectionValues) {
-                style[this.getContainerDirectionClass(breakpoint, value)] = {
+                const className = this.getContainerDirectionClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = {
                     flexDirection: GridStyle.getContainerDirectionStyle(value)
                 };
             }
 
             for (const value of WrappingValues) {
-                style[this.getContainerWrappingClass(breakpoint, value)] = {
+                const className = this.getContainerWrappingClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = {
                     flexWrap: GridStyle.getContainerWrappingStyle(value)
                 };
             }
 
             for (const value of JustificationValues) {
-                style[this.getContainerJustificationClass(breakpoint, value)] = {
+                const className = this.getContainerJustificationClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = {
                     justifyContent: GridStyle.getContainerJustificationStyle(value)
                 };
             }
 
             for (const value of ContentAlignmentValues) {
-                style[this.getContainerContentAlignmentClass(breakpoint, value)] = {
+                const className = this.getContainerContentAlignmentClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = {
                     alignContent: GridStyle.getContainerContentAlignmentStyle(value)
                 };
             }
 
             for (let value of ItemAlignmentValues) {
-                style[this.getContainerItemAlignmentClass(breakpoint, value)] = {
+                const className = this.getContainerItemAlignmentClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = {
                     alignItems: GridStyle.getItemAlignmentStyle(value)
                 };
             }
 
             for (let value of ItemOrderValues) {
-                style[this.getItemOrderClass(breakpoint, value)] = {
+                const className = this.getItemOrderClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = {
                     order: GridStyle.getItemOrderStyle(value)
                 };
             }
@@ -150,7 +166,9 @@ export class GridStyle {
                 const spacing = i as Spacing;
                 const space: number = breakpoints[breakpointName].spacing(spacing);
 
-                style[this.getContainerSpacingClass(breakpoint, spacing)] = {
+                const className = this.getContainerSpacingClass(breakpoint, spacing);
+                styleDecl[className] = {};
+                style[className] = {
                     [`& > .${this.getItemClass()}`]: {
                         padding: `0 ${space / 2}px`,
                     },
@@ -164,7 +182,9 @@ export class GridStyle {
             }
 
             for (let value of ItemFlexValues) {
-                style[this.getItemFlexClass(breakpoint, value)] = GridStyle.getItemFlexStyle(value);
+                const className = this.getItemFlexClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = GridStyle.getItemFlexStyle(value);
             }
 
             // add items styles
@@ -172,12 +192,16 @@ export class GridStyle {
 
                 // set item size
                 if (isItemColumn(i)) {
-                    style[this.getItemFlexClass(breakpoint, i)] = GridStyle.getItemFlexColumnStyle(i);
+                    const className = this.getItemFlexClass(breakpoint, i);
+                    styleDecl[className] = {};
+                    style[className] = GridStyle.getItemFlexColumnStyle(i);
                 }
 
                 // set offset style (if applicable)
                 if (isItemOffset(i)) {
-                    style[this.getItemOffsetClass(breakpoint, i)] = GridStyle.getItemOffsetStyle(i);
+                    const className = this.getItemOffsetClass(breakpoint, i);
+                    styleDecl[className] = {};
+                    style[className] = GridStyle.getItemOffsetStyle(i);
                 }
             }
         });
