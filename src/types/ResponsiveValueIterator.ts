@@ -18,16 +18,13 @@ export class ResponsiveValueIterator<T> implements Iterable<[Breakpoint, T]> {
         // create result array
         const entries: Array<[Breakpoint, T]> = [];
 
-        // pipe all iterator values into array
+        // capture iterator
         const iterator = this[Symbol.iterator]();
+
+        // pipe all iterator values into array
         let entry: IteratorResult<[Breakpoint, T]>;
         while (!(entry = iterator.next()).done) {
-
-            // capture next value
             entries.push(entry.value);
-
-            // move to next entry
-            entry = iterator.next();
         }
 
         // return array
