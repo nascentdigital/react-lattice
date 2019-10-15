@@ -21,6 +21,7 @@ export const ResponsiveLayout = (props) => {
     return (
         <Fragment>
             {renderBasic(classes)}
+            {renderResponsiveColumn(classes)}
         </Fragment>
     );
 };
@@ -30,19 +31,71 @@ export const ResponsiveLayout = (props) => {
 function renderBasic(classes) {
     return (
         <Card>
-            <h2>Basic Layout</h2>
+            <h2>Basic Responsive Layout</h2>
             <Grid className={classes.viewer}
                   container
                   alignContent="center"
                   alignItems="stretch">
                 <Grid className={classes.block}
-                      style={{backgroundColor: "rgb(66, 160, 206)"}}
+                      style={{backgroundColor: "rgb( 66, 160, 206)"}}
                       item
-                      flex={{xs: 12, sm: 6}}>This is above on mobile, and to the left on larger screens.</Grid>,
+                      flex={{xs: 12, md: 6}}>
+                    This is above on mobile / tablet,<br/>
+                    and to the left on larger screens.
+                </Grid>
                 <Grid className={classes.block}
-                      style={{backgroundColor: "rgb(241, 202, 87)"}}
+                      style={{backgroundColor: "rgb(102, 205, 170)"}}
                       item
-                      flex={{xs: 12, sm: 6}}>This is below on mobile, and to the right on larger screens.</Grid>,
+                      flex={{xs: 12, md: 6}}>
+                    This is below on mobile / tablet,<br/>
+                    and to the right on larger screens.
+                </Grid>
+            </Grid>
+        </Card>
+    );
+}
+
+function renderResponsiveColumn(classes) {
+    return (
+        <Card>
+            <h2>Responsive Columns</h2>
+            <Grid className={classes.viewer}
+                  container
+                  alignContent="stretch"
+                  alignItems="stretch">
+                <Grid container alignContent="stretch" alignItems="stretch" direction={{xs: "column", sm: "row"}}
+                      item flex={6}>
+                    <Grid className={classes.block}
+                          style={{backgroundColor: "rgb( 66, 160, 206)"}}
+                          item
+                          flex={{xs: 6, md: 6}}>
+                        This is above on mobile / tablet,<br/>
+                        and to the left on larger screens.
+                    </Grid>
+                    <Grid className={classes.block}
+                          style={{backgroundColor: "rgb(102, 205, 170)"}}
+                          item
+                          flex={{xs: 6, md: 6}}>
+                        This is below on mobile / tablet,<br/>
+                        and to the right on larger screens.
+                    </Grid>
+                </Grid>
+                <Grid container item flex={6}>
+                    <Grid className={classes.block}
+                          style={{backgroundColor: "rgb( 66, 160, 206)"}}
+                          item
+                          flex={{xs: 12, md: 6}}>
+                        This is above on mobile / tablet,<br/>
+                        and to the left on larger screens.
+                    </Grid>
+                    <Grid className={classes.block}
+                          style={{backgroundColor: "rgb(102, 205, 170)"}}
+                          item
+                          flex={{xs: 12, md: 6}}>
+                        This is below on mobile / tablet,<br/>
+                        and to the right on larger screens.
+                    </Grid>
+                </Grid>
             </Grid>
         </Card>
     );
@@ -57,10 +110,12 @@ const useStyles = createUseStyles({
         border: "2px solid #b6b6b6"
     },
     block: {
-        minWidth: "60px",
-        minHeight: "60px",
+        display: "flex",
+        alignContent: "center",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "150px",
         padding: "8px",
-        color: "#fff",
-        textAlign: "center"
+        color: "#fff"
     }
 });
