@@ -2,33 +2,31 @@
 import {storiesOf} from "@storybook/react";
 import React from "react";
 import {createUseStyles} from "react-jss";
-import {createGrid} from "../../src";
-
-// define grid
-const Grid = createGrid();
+import {Grid} from "../components";
 
 
 // basics
 storiesOf("Grid", module)
-    .add("basic", () => {
+    .add("Responsive: Basic Flex", () => {
 
     const classes = useStyles();
     return (
-        <Grid className={classes.viewer}
-              container
-              alignContent="center"
+        <Grid container
+              alignContent={{xs: "stretch", md: "center"}}
               alignItems="stretch">
             <Grid className={classes.block}
                   style={{backgroundColor: "rgb( 66, 160, 206)"}}
                   item
-                  flex={{xs: 12, md: 6}}>
+                  offset={{xs: 8, sm: 0}}
+                  order={{sm: "last"}}
+                  flex={4}>
                 This is above on mobile / tablet,<br/>
                 and to the left on larger screens.
             </Grid>
             <Grid className={classes.block}
                   style={{backgroundColor: "rgb(102, 205, 170)"}}
                   item
-                  flex={{xs: 12, md: 6}}>
+                  flex={{xs: 12, sm: 8}}>
                 This is below on mobile / tablet,<br/>
                 and to the right on larger screens.
             </Grid>
@@ -39,11 +37,6 @@ storiesOf("Grid", module)
 
 // styles
 const useStyles = createUseStyles({
-    viewer: {
-        minHeight: "300px",
-        marginTop: "16px",
-        border: "2px solid #b6b6b6"
-    },
     block: {
         display: "flex",
         alignContent: "center",
