@@ -15,7 +15,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build && mv build ../docs/demo",
+        "build": "react-scripts build && rm -Rf ../docs/demo && mv build ../docs/demo",
         "test": "react-scripts test --env=jsdom",
         "predeploy": "npm run build",
         "deploy": "gh-pages -d build"
