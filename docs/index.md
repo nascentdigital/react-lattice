@@ -3,4 +3,4 @@
 
 Under construction!
 
-Check out the [demo](./storybook/index.html) for now.
+Check out the [demo](demo/index.html) for now.

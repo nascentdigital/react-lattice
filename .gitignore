@@ -10,7 +10,7 @@ dist
 .idea
 .vscode
 .rpt2_cache
-/docs/storybook
+/docs/demo
 /react-lattice-*.tgz
 npm-debug.log*
 yarn-debug.log*
