@@ -29,7 +29,10 @@
         "prepare": "npm run build",
         "deploy": "gh-pages -d docs"
     },
-    "dependencies": {},
+    "dependencies": {
+        "jss": "^10.0.0",
+        "jss-preset-default": "^10.0.0"
+    },
     "peerDependencies": {
         "prop-types": "^15.5.4",
         "react": "^16.0.0",
@@ -40,14 +43,20 @@
         "@babel/core": "^7.6.4",
         "@babel/runtime": "^7.6.3",
         "@svgr/rollup": "^4.3.2",
+        "@types/enzyme": "^3.10.3",
+        "@types/enzyme-adapter-react-16": "^1.0.5",
         "@types/jest": "^24.0.18",
         "@types/react": "^16.9.2",
         "@types/react-dom": "^16.9.0",
         "cross-env": "^6.0.0",
+        "enzyme": "^3.10.0",
+        "enzyme-adapter-react-16": "^1.15.1",
         "gh-pages": "^2.1.1",
+        "jest-enzyme": "^7.1.1",
+        "jsdom": "15.2.0",
+        "jsdom-global": "3.0.2",
         "react": "^16.9.0",
         "react-dom": "^16.9.0",
-        "react-jss": "^10.0.0",
         "react-scripts-ts": "^3.1.0",
         "rollup": "^1.21.4",
         "rollup-plugin-babel": "^4.3.3",

@@ -1,6 +1,7 @@
 // imports
 import React, {HTMLAttributes} from "react";
-import {createUseStyles} from "react-jss";
+import {create as createJss} from "jss";
+import preset from "jss-preset-default";
 import {
     isResponsiveValue,
     ResponsiveValue
@@ -21,7 +22,14 @@ import {
 } from "./GridTypes";
 
 
-// define props
+// constants
+const jss = createJss({
+    createGenerateId: () => rule => rule.key
+});
+jss.setup(preset());
+
+
+// types
 export interface Props extends HTMLAttributes<HTMLDivElement> {
     tag?: string,
     container?: boolean,
@@ -42,7 +50,8 @@ export function createGrid(options?: GridOptions): React.FC<Props> {
 
     // create style
     const gridStyle = new GridStyle(options);
-    const useStyles = createUseStyles(gridStyle.create());
+    const styles = jss.createStyleSheet(gridStyle.create())
+        .attach();
 
     // component definition
     return (props: Props) => {
@@ -70,7 +79,7 @@ export function createGrid(options?: GridOptions): React.FC<Props> {
         const classNames = [];
 
         // apply container styles (if applicable)
-        const classes = useStyles(props);
+        const classes = styles.classes;
         if (container) {
 
             // add base class
