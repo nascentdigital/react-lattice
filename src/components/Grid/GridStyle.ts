@@ -33,7 +33,7 @@ import {
 
 
 // constants
-const DefaultBreakpoints: GridBreakpoints = {
+const DEFAULT_BREAKPOINTS: GridBreakpoints = {
     xs: {
         width: 0,
         spacing: (space: Spacing) => space * 1
@@ -55,7 +55,7 @@ const DefaultBreakpoints: GridBreakpoints = {
         spacing: (space: Spacing) => space * 8
     }
 };
-const DefaultNamespace = "nd_";
+const DEFAULT_NAMESPACE = "nd_";
 
 
 // class definition
@@ -64,151 +64,13 @@ export class GridStyle {
     private readonly _breakpoints: GridBreakpoints;
     private readonly _classPrefix: string;
 
-
     constructor(options: GridOptions = {}) {
 
         // initialize instance variables
-        this._breakpoints = options.breakpoints || DefaultBreakpoints;
-        this._classPrefix = (options.namespace || DefaultNamespace) + "grid";
+        this._breakpoints = options.breakpoints || DEFAULT_BREAKPOINTS;
+        this._classPrefix = (options.namespace || DEFAULT_NAMESPACE) + "grid";
     }
 
-    create() {
-
-        // create style object
-        const styles: any = {
-
-            // container
-            [this.getContainerClass()]: {
-                display: "flex",
-                flex: "0 1 auto",
-                flexWrap: "wrap",
-                boxSizing: "border-box"
-            },
-
-            // item
-            [this.getItemClass()]: {
-                boxSizing: "border-box"
-            }
-        };
-
-        // add responsive styles
-        const breakpoints: any = this._breakpoints;
-        [Breakpoint.xs, Breakpoint.sm, Breakpoint.md, Breakpoint.lg, Breakpoint.xl].forEach(breakpoint => {
-
-            // target correct media query (or use fallback for XS)
-            const breakpointName: string = Breakpoint[breakpoint];
-            let styleDecl: any = {};
-            let style: any = styles;
-            if (breakpoint !== Breakpoint.xs) {
-
-                // make style declaration point to core styles
-                styleDecl = styles;
-
-                // create style for media query
-                style = {};
-
-                // bind media query to styles
-                styles[`@media screen and (min-width: ${breakpoints[breakpointName].width}px)`] = style;
-            }
-
-            // add container styles
-            for (const value of DirectionValues) {
-                const className = this.getContainerDirectionClass(breakpoint, value);
-                styleDecl[className] = {};
-                style[className] = {
-                    flexDirection: GridStyle.getContainerDirectionStyle(value)
-                };
-            }
-
-            for (const value of WrappingValues) {
-                const className = this.getContainerWrappingClass(breakpoint, value);
-                styleDecl[className] = {};
-                style[className] = {
-                    flexWrap: GridStyle.getContainerWrappingStyle(value)
-                };
-            }
-
-            for (const value of JustificationValues) {
-                const className = this.getContainerJustificationClass(breakpoint, value);
-                styleDecl[className] = {};
-                style[className] = {
-                    justifyContent: GridStyle.getContainerJustificationStyle(value)
-                };
-            }
-
-            for (const value of ContentAlignmentValues) {
-                const className = this.getContainerContentAlignmentClass(breakpoint, value);
-                styleDecl[className] = {};
-                style[className] = {
-                    alignContent: GridStyle.getContainerContentAlignmentStyle(value)
-                };
-            }
-
-            for (let value of ItemAlignmentValues) {
-                const className = this.getContainerItemAlignmentClass(breakpoint, value);
-                styleDecl[className] = {};
-                style[className] = {
-                    alignItems: GridStyle.getItemAlignmentStyle(value)
-                };
-            }
-
-            for (let value of ItemOrderValues) {
-                const className = this.getItemOrderClass(breakpoint, value);
-                styleDecl[className] = {};
-                style[className] = {
-                    order: GridStyle.getItemOrderStyle(value)
-                };
-            }
-
-            for (let i = 0; i <= MaxSpacing; ++i) {
-
-                // determine spacing / space
-                const spacing = i as Spacing;
-                const space: number = breakpoints[breakpointName].spacing(spacing);
-
-                const className = this.getContainerSpacingClass(breakpoint, spacing);
-                styleDecl[className] = {};
-                style[className] = {
-                    [`& > .${this.getItemClass()}`]: {
-                        padding: `0 ${space / 2}px`,
-                    },
-                    [`& > .${this.getItemClass()}:first-child`]: {
-                        paddingLeft: 0,
-                    },
-                    [`& > .${this.getItemClass()}:last-child`]: {
-                        paddingRight: 0,
-                    },
-                }
-            }
-
-            for (let value of ItemFlexValues) {
-                const className = this.getItemFlexClass(breakpoint, value);
-                styleDecl[className] = {};
-                style[className] = GridStyle.getItemFlexStyle(value);
-            }
-
-            // add items styles
-            for (let i = 0; i <= GridColumnCount; ++i) {
-
-                // set item size
-                if (isItemColumn(i)) {
-                    const className = this.getItemFlexClass(breakpoint, i);
-                    styleDecl[className] = {};
-                    style[className] = GridStyle.getItemFlexColumnStyle(i);
-                }
-
-                // set offset style (if applicable)
-                if (isItemOffset(i)) {
-                    const className = this.getItemOffsetClass(breakpoint, i);
-                    styleDecl[className] = {};
-                    style[className] = GridStyle.getItemOffsetStyle(i);
-                }
-            }
-        });
-
-        // return styles
-        return styles;
-    }
 
     private static getItemFlexStyle(flex: ItemFlex): any {
 
@@ -242,129 +104,14 @@ export class GridStyle {
         return style;
     }
 
-    getContainerClass() {
-        return this._classPrefix;
-    }
-
-    getContainerDirectionClass(breakpoint: Breakpoint, value: Direction): string {
-        return `${this._classPrefix}-dir-${Breakpoint[breakpoint]}-${value}`;
-    }
-
-    getContainerDirectionClasses(value?: Direction | ResponsiveValue<Direction>): string[] {
-        return GridStyle.resolveResponsiveClasses(value,
-            (b, v) => this.getContainerDirectionClass(b, v), "row" as Direction);
-    }
-
-    getContainerWrappingClass(breakpoint: Breakpoint, value: Wrapping): string {
-        return `${this._classPrefix}-wrp-${Breakpoint[breakpoint]}-${value}`;
-    }
-
-    getContainerWrappingClasses(value?: Wrapping | ResponsiveValue<Wrapping>): string[] {
-        return GridStyle.resolveResponsiveClasses(value,
-            (b, v) => this.getContainerWrappingClass(b, v), "none" as Wrapping);
-    }
-
-    getContainerJustificationClass(breakpoint: Breakpoint, value: Justification): string {
-        return `${this._classPrefix}-jst-${Breakpoint[breakpoint]}-${value}`;
-    }
-
-    getContainerJustificationClasses(value?: Justification | ResponsiveValue<Justification>): string[] {
-        return GridStyle.resolveResponsiveClasses(value,
-            (b, v) => this.getContainerJustificationClass(b, v), "flexStart" as Justification);
-    }
-
-    getContainerContentAlignmentClass(breakpoint: Breakpoint, value: ContentAlignment): string {
-        return `${this._classPrefix}-algi-${Breakpoint[breakpoint]}-${value}`;
-    }
-
-    getContainerContentAlignmentClasses(value?: ContentAlignment | ResponsiveValue<ContentAlignment>): string[] {
-        return GridStyle.resolveResponsiveClasses(value,
-            (b, v) => this.getContainerContentAlignmentClass(b, v), "stretch" as ContentAlignment);
-    }
-
-    getContainerItemAlignmentClass(breakpoint: Breakpoint, alignment: ItemAlignment): string {
-        return `${this._classPrefix}-algc-${Breakpoint[breakpoint]}-${alignment}`;
-    }
-
-    getContainerItemAlignmentClasses(value?: ItemAlignment | ResponsiveValue<ItemAlignment>): string[] {
-        return GridStyle.resolveResponsiveClasses(value,
-            (b, v) => this.getContainerItemAlignmentClass(b, v), "stretch" as ItemAlignment);
-    }
-
-    getContainerSpacingClass(breakpoint: Breakpoint, spacing: Spacing): string {
-        return `${this._classPrefix}-spc-${Breakpoint[breakpoint]}-${spacing}`;
-    }
-
-    getContainerSpacingClasses(value?: Spacing | ResponsiveValue<Spacing>): string[] {
-        return GridStyle.resolveResponsiveClasses(value,
-            (b, v) => this.getContainerSpacingClass(b, v), 0 as Spacing);
-    }
-
-    getItemClass() {
-        return this._classPrefix + "-itm";
-    }
-
-    getItemOrderClass(breakpoint: Breakpoint, order: ItemOrder): string {
-        return `${this._classPrefix}-ord-${Breakpoint[breakpoint]}-${order}`;
-    }
-
-    getItemOrderClasses(value?: ItemOrder | ResponsiveValue<ItemOrder>): string[] {
-        return GridStyle.resolveResponsiveClasses(value,
-            (b, v) => this.getItemOrderClass(b, v), "initial" as ItemOrder);
-    }
-
-    getItemOffsetClass(breakpoint: Breakpoint, offset: ItemOffset): string {
-        return `${this._classPrefix}-off-${Breakpoint[breakpoint]}-${offset}`;
-    }
-
-    getItemOffsetClasses(value?: ItemOffset | ResponsiveValue<ItemOffset>): string[] {
-        return GridStyle.resolveResponsiveClasses(value,
-            (b, v) => this.getItemOffsetClass(b, v), 0 as ItemOffset);
-    }
-
-    getItemFlexClass(breakpoint: Breakpoint, flex?: boolean | ItemColumn | ItemFlex): string {
-
-        // skip if flex is not set
-        const breakpointName = Breakpoint[breakpoint];
-        if (flex === false || flex === "none") {
-            return `${this._classPrefix}-flx-${breakpointName}-none`;
-        }
-
-        // use auto flex if specified
-        else if (flex === true || flex === "auto") {
-            return `${this._classPrefix}-flx-${breakpointName}`;
-        }
-
-        // use flex grow / shrink if specified
-        else if (flex === "grow" || flex === "shrink") {
-            return `${this._classPrefix}-flx-${breakpointName}-${flex}`;
-        }
-
-        // use absolute value if it's a number
-        const column = flex as number;
-        if (!isNaN(column) && column > 0 && column <= GridColumnCount) {
-            return `${this._classPrefix}-flx-${breakpointName}-${column}`;
-        }
-
-        // or skip if unrecognized
-        else {
-            return "";
-        }
-    }
-
-    getItemFlexClasses(value?: boolean | ItemColumn | ItemFlex | ResponsiveValue<boolean | ItemColumn | ItemFlex>) {
-        return GridStyle.resolveResponsiveClasses(value,
-            (b, v) => this.getItemFlexClass(b, v), "auto" as ItemFlex);
-    }
-
-
     private static resolveResponsiveClasses<T>(value: undefined | T | ResponsiveValue<T>,
-                                        classResolver: (breakpoint: Breakpoint, value: T) => string,
-                                        defaultValue: T): string[] {
+                                               classResolver: (breakpoint: Breakpoint, value: T) => string,
+                                               defaultValue: T): string[] {
 
         // don't emit any classes if value isn't specified
-        const classes = [];
+        const classes: string[] = [];
         if (value === undefined) {
+            return classes;
         }
 
         // or evaluate breakpoints if responsive value is passed in
@@ -502,4 +249,263 @@ export class GridStyle {
         }
     }
 
+
+    public create() {
+
+        // create style object
+        const styles: any = {
+
+            // container
+            [this.getContainerClass()]: {
+                display: "flex",
+                flex: "0 1 auto",
+                flexWrap: "wrap",
+                boxSizing: "border-box"
+            },
+
+            // item
+            [this.getItemClass()]: {
+                boxSizing: "border-box"
+            }
+        };
+
+        // add responsive styles
+        const breakpoints: any = this._breakpoints;
+        [Breakpoint.xs, Breakpoint.sm, Breakpoint.md, Breakpoint.lg, Breakpoint.xl].forEach((breakpoint) => {
+
+            // target correct media query (or use fallback for XS)
+            const breakpointName: string = Breakpoint[breakpoint];
+            let styleDecl: any = {};
+            let style: any = styles;
+            if (breakpoint !== Breakpoint.xs) {
+
+                // make style declaration point to core styles
+                styleDecl = styles;
+
+                // create style for media query
+                style = {};
+
+                // bind media query to styles
+                styles[`@media screen and (min-width: ${breakpoints[breakpointName].width}px)`] = style;
+            }
+
+            // add container styles
+            for (const value of DirectionValues) {
+                const className = this.getContainerDirectionClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = {
+                    flexDirection: GridStyle.getContainerDirectionStyle(value)
+                };
+            }
+
+            for (const value of WrappingValues) {
+                const className = this.getContainerWrappingClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = {
+                    flexWrap: GridStyle.getContainerWrappingStyle(value)
+                };
+            }
+
+            for (const value of JustificationValues) {
+                const className = this.getContainerJustificationClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = {
+                    justifyContent: GridStyle.getContainerJustificationStyle(value)
+                };
+            }
+
+            for (const value of ContentAlignmentValues) {
+                const className = this.getContainerContentAlignmentClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = {
+                    alignContent: GridStyle.getContainerContentAlignmentStyle(value)
+                };
+            }
+
+            for (const value of ItemAlignmentValues) {
+                const className = this.getContainerItemAlignmentClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = {
+                    alignItems: GridStyle.getItemAlignmentStyle(value)
+                };
+            }
+
+            for (const value of ItemOrderValues) {
+                const className = this.getItemOrderClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = {
+                    order: GridStyle.getItemOrderStyle(value)
+                };
+            }
+
+            for (let i = 0; i <= MaxSpacing; ++i) {
+
+                // determine spacing / space
+                const spacing = i as Spacing;
+                let spacer = breakpoints[breakpointName].spacing;
+                if (typeof spacer === "number") {
+                    spacer = (s: number) => s * spacer;
+                }
+                const space: number = spacer(spacing);
+
+                const className = this.getContainerSpacingClass(breakpoint, spacing);
+                styleDecl[className] = {};
+                style[className] = {
+                    [`& > .${this.getItemClass()}`]: {
+                        padding: `0 ${space / 2}px`,
+                    },
+                    [`& > .${this.getItemClass()}:first-child`]: {
+                        paddingLeft: 0,
+                    },
+                    [`& > .${this.getItemClass()}:last-child`]: {
+                        paddingRight: 0,
+                    },
+                };
+            }
+
+            for (const value of ItemFlexValues) {
+                const className = this.getItemFlexClass(breakpoint, value);
+                styleDecl[className] = {};
+                style[className] = GridStyle.getItemFlexStyle(value);
+            }
+
+            // add items styles
+            for (let i = 0; i <= GridColumnCount; ++i) {
+
+                // set item size
+                if (isItemColumn(i)) {
+                    const className = this.getItemFlexClass(breakpoint, i);
+                    styleDecl[className] = {};
+                    style[className] = GridStyle.getItemFlexColumnStyle(i);
+                }
+
+                // set offset style (if applicable)
+                if (isItemOffset(i)) {
+                    const className = this.getItemOffsetClass(breakpoint, i);
+                    styleDecl[className] = {};
+                    style[className] = GridStyle.getItemOffsetStyle(i);
+                }
+            }
+        });
+
+        // return styles
+        return styles;
+    }
+
+    public getContainerClass() {
+        return this._classPrefix;
+    }
+
+    public getContainerDirectionClass(breakpoint: Breakpoint, value: Direction): string {
+        return `${this._classPrefix}-dir-${Breakpoint[breakpoint]}-${value}`;
+    }
+
+    public getContainerDirectionClasses(value?: Direction | ResponsiveValue<Direction>): string[] {
+        return GridStyle.resolveResponsiveClasses(value,
+            (b, v) => this.getContainerDirectionClass(b, v), "row" as Direction);
+    }
+
+    public getContainerWrappingClass(breakpoint: Breakpoint, value: Wrapping): string {
+        return `${this._classPrefix}-wrp-${Breakpoint[breakpoint]}-${value}`;
+    }
+
+    public getContainerWrappingClasses(value?: Wrapping | ResponsiveValue<Wrapping>): string[] {
+        return GridStyle.resolveResponsiveClasses(value,
+            (b, v) => this.getContainerWrappingClass(b, v), "none" as Wrapping);
+    }
+
+    public getContainerJustificationClass(breakpoint: Breakpoint, value: Justification): string {
+        return `${this._classPrefix}-jst-${Breakpoint[breakpoint]}-${value}`;
+    }
+
+    public getContainerJustificationClasses(value?: Justification | ResponsiveValue<Justification>): string[] {
+        return GridStyle.resolveResponsiveClasses(value,
+            (b, v) => this.getContainerJustificationClass(b, v), "flexStart" as Justification);
+    }
+
+    public getContainerContentAlignmentClass(breakpoint: Breakpoint, value: ContentAlignment): string {
+        return `${this._classPrefix}-algi-${Breakpoint[breakpoint]}-${value}`;
+    }
+
+    public getContainerContentAlignmentClasses(value?: ContentAlignment | ResponsiveValue<ContentAlignment>): string[] {
+        return GridStyle.resolveResponsiveClasses(value,
+            (b, v) => this.getContainerContentAlignmentClass(b, v), "stretch" as ContentAlignment);
+    }
+
+    public getContainerItemAlignmentClass(breakpoint: Breakpoint, alignment: ItemAlignment): string {
+        return `${this._classPrefix}-algc-${Breakpoint[breakpoint]}-${alignment}`;
+    }
+
+    public getContainerItemAlignmentClasses(value?: ItemAlignment | ResponsiveValue<ItemAlignment>): string[] {
+        return GridStyle.resolveResponsiveClasses(value,
+            (b, v) => this.getContainerItemAlignmentClass(b, v), "stretch" as ItemAlignment);
+    }
+
+    public getContainerSpacingClass(breakpoint: Breakpoint, spacing: Spacing): string {
+        return `${this._classPrefix}-spc-${Breakpoint[breakpoint]}-${spacing}`;
+    }
+
+    public getContainerSpacingClasses(value?: Spacing | ResponsiveValue<Spacing>): string[] {
+        return GridStyle.resolveResponsiveClasses(value,
+            (b, v) => this.getContainerSpacingClass(b, v), 0 as Spacing);
+    }
+
+    public getItemClass() {
+        return this._classPrefix + "-itm";
+    }
+
+    public getItemOrderClass(breakpoint: Breakpoint, order: ItemOrder): string {
+        return `${this._classPrefix}-ord-${Breakpoint[breakpoint]}-${order}`;
+    }
+
+    public getItemOrderClasses(value?: ItemOrder | ResponsiveValue<ItemOrder>): string[] {
+        return GridStyle.resolveResponsiveClasses(value,
+            (b, v) => this.getItemOrderClass(b, v), "initial" as ItemOrder);
+    }
+
+    public getItemOffsetClass(breakpoint: Breakpoint, offset: ItemOffset): string {
+        return `${this._classPrefix}-off-${Breakpoint[breakpoint]}-${offset}`;
+    }
+
+    public getItemOffsetClasses(value?: ItemOffset | ResponsiveValue<ItemOffset>): string[] {
+        return GridStyle.resolveResponsiveClasses(value,
+            (b, v) => this.getItemOffsetClass(b, v), 0 as ItemOffset);
+    }
+
+    public getItemFlexClass(breakpoint: Breakpoint, flex?: boolean | ItemColumn | ItemFlex): string {
+
+        // skip if flex is not set
+        const breakpointName = Breakpoint[breakpoint];
+        if (flex === false || flex === "none") {
+            return `${this._classPrefix}-flx-${breakpointName}-none`;
+        }
+
+        // use auto flex if specified
+        else if (flex === true || flex === "auto") {
+            return `${this._classPrefix}-flx-${breakpointName}`;
+        }
+
+        // use flex grow / shrink if specified
+        else if (flex === "grow" || flex === "shrink") {
+            return `${this._classPrefix}-flx-${breakpointName}-${flex}`;
+        }
+
+        // use absolute value if it's a number
+        const column = flex as number;
+        if (!isNaN(column) && column > 0 && column <= GridColumnCount) {
+            return `${this._classPrefix}-flx-${breakpointName}-${column}`;
+        }
+
+        // or skip if unrecognized
+        else {
+            return "";
+        }
+    }
+
+    public getItemFlexClasses(
+        value?: boolean | ItemColumn | ItemFlex | ResponsiveValue<boolean | ItemColumn | ItemFlex>) {
+
+        return GridStyle.resolveResponsiveClasses(value,
+            (b, v) => this.getItemFlexClass(b, v), "auto" as ItemFlex);
+    }
 }

@@ -1,5 +1,5 @@
 // imports
-import React, {Fragment, useState} from "react";
+import React, {Fragment} from "react";
 import {createUseStyles} from "react-jss";
 import {
     ContentAlignmentValues,
@@ -14,10 +14,10 @@ import {
 
 
 // component
-export const ResponsiveLayout = (props) => {
+export const ResponsiveLayout = () => {
 
     // render
-    const classes = useStyles(props);
+    const classes = useStyles();
     return (
         <Fragment>
             {renderBasic(classes)}
@@ -28,7 +28,7 @@ export const ResponsiveLayout = (props) => {
 
 
 // helpers
-function renderBasic(classes) {
+function renderBasic(classes: any) {
     return (
         <Card>
             <h2>Basic Responsive Layout</h2>
@@ -55,7 +55,7 @@ function renderBasic(classes) {
     );
 }
 
-function renderResponsiveColumn(classes) {
+function renderResponsiveColumn(classes: any) {
     return (
         <Card>
             <h2>Responsive Columns</h2>

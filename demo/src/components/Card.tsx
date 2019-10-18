@@ -4,7 +4,7 @@ import {createUseStyles} from "react-jss";
 
 
 // components
-export const Card = (props) => {
+export const Card = (props: any) => {
     const classes = useStyles(props);
     return (
         <div className={classes.container}>{props.children}</div>

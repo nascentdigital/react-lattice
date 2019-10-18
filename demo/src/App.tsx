@@ -1,8 +1,8 @@
 // imports
 import React from "react";
 import {createUseStyles} from "react-jss";
-import {ResponsiveLayout} from "./ResponsiveLayout";
 import {BasicLayout} from "./BasicLayout";
+import {ResponsiveLayout} from "./ResponsiveLayout";
 import {WrapLayout} from "./WrapLayout";
 
 
@@ -20,7 +20,7 @@ export const App = () => {
             <WrapLayout/>
         </div>
     );
-}
+};
 
 
 const useStyles = createUseStyles({
@@ -28,31 +28,42 @@ const useStyles = createUseStyles({
         "body,h1,h2,h3,h4,h5,p,div,span,button": {
             padding: 0,
             margin: 0,
-            fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+            fontFamily: "'Raleway', sans-serif",
             fontWeight: 300,
             fontStyle: "normal",
+            color: "#000",
             fontSmoothing: "antialiased"
         },
         body: {
-            margin: "50px",
             backgroundColor: "#eee",
             fontSize: "14px"
         },
-        h1: {
-            fontSize: "24px",
-            fontWeight: 600
-        },
-        h2: {
-            fontSize: "20px",
-            fontWeight: 500
-        },
-        h3: {
-            fontSize: "18px",
+        "h1,h2,h3,h4,h5": {
+            fontFamily: "'Lato', sans-serif",
             fontWeight: 400
         },
-        code: {
-            fontFamily: "'Roboto Slab', 'Consolas', 'Courier New', monospace"
+        h1: {
+            fontSize: "28px"
         },
+        h2: {
+            fontSize: "24px"
+        },
+        h3: {
+            fontSize: "18px"
+        },
+        h4: {
+            fontSize: "14px"
+        },
+        h5: {
+            fontSize: "12px"
+        },
+        code: {
+            fontFamily: "'Source Code Pro', monospace",
+            fontSize: "14px",
+            fontWeight: 300
+        },
+
+
         button: {
             boxSizing: "border-box",
             minWidth: "64px",

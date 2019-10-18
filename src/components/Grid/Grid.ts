@@ -1,7 +1,7 @@
 // imports
-import React, {HTMLAttributes} from "react";
 import {create as createJss} from "jss";
 import preset from "jss-preset-default";
+import React, {HTMLAttributes} from "react";
 import {
     isResponsiveValue,
     ResponsiveValue
@@ -24,29 +24,29 @@ import {
 
 // constants
 const jss = createJss({
-    createGenerateId: () => rule => rule.key
+    createGenerateId: () => (rule) => rule.key
 });
 jss.setup(preset());
 
 
 // types
-export interface Props extends HTMLAttributes<HTMLDivElement> {
-    tag?: string,
-    container?: boolean,
-    direction?: Direction | ResponsiveValue<Direction>,
-    justify?: Justification | ResponsiveValue<Justification>,
-    alignItems?: ItemAlignment | ResponsiveValue<ItemAlignment>,
-    alignContent?: ContentAlignment | ResponsiveValue<ContentAlignment>,
-    spacing?: Spacing | ResponsiveValue<Spacing>,
-    wrap?: Wrapping | ResponsiveValue<Wrapping>,
-    item?: boolean,
-    flex?: boolean | ItemColumn | ItemFlex | ResponsiveValue<boolean | ItemColumn | ItemFlex>,
-    offset?: ItemOffset | ResponsiveValue<ItemOffset>,
-    order?: ItemOrder | ResponsiveValue<ItemOrder>
+export interface IProps extends HTMLAttributes<HTMLDivElement> {
+    tag?: string;
+    container?: boolean;
+    direction?: Direction | ResponsiveValue<Direction>;
+    justify?: Justification | ResponsiveValue<Justification>;
+    alignItems?: ItemAlignment | ResponsiveValue<ItemAlignment>;
+    alignContent?: ContentAlignment | ResponsiveValue<ContentAlignment>;
+    spacing?: Spacing | ResponsiveValue<Spacing>;
+    wrap?: Wrapping | ResponsiveValue<Wrapping>;
+    item?: boolean;
+    flex?: boolean | ItemColumn | ItemFlex | ResponsiveValue<boolean | ItemColumn | ItemFlex>;
+    offset?: ItemOffset | ResponsiveValue<ItemOffset>;
+    order?: ItemOrder | ResponsiveValue<ItemOrder>;
 }
 
 // factory method
-export function createGrid(options?: GridOptions): React.FC<Props> {
+export function createGrid(options?: GridOptions): React.FC<IProps> {
 
     // create style
     const gridStyle = new GridStyle(options);
@@ -54,7 +54,7 @@ export function createGrid(options?: GridOptions): React.FC<Props> {
         .attach();
 
     // component definition
-    return (props: Props) => {
+    return (props: IProps) => {
 
         // resolve props
         const {
@@ -87,35 +87,35 @@ export function createGrid(options?: GridOptions): React.FC<Props> {
 
             // add content layout classes
             gridStyle.getContainerDirectionClasses(direction)
-                .forEach(key => {
+                .forEach((key) => {
                     classNames.push(classes[key]);
                 });
 
             gridStyle.getContainerWrappingClasses(wrap)
-                .forEach(key => {
+                .forEach((key) => {
                     classNames.push(classes[key]);
                 });
 
             gridStyle.getContainerJustificationClasses(justify)
-                .forEach(key => {
+                .forEach((key) => {
                     classNames.push(classes[key]);
                 });
 
             gridStyle.getContainerContentAlignmentClasses(alignContent)
-                .forEach(key => {
+                .forEach((key) => {
                     classNames.push(classes[key]);
                 });
 
             gridStyle.getContainerItemAlignmentClasses(alignItems)
-                .forEach(key => {
+                .forEach((key) => {
                     classNames.push(classes[key]);
                 });
 
-            let spacingValues = isResponsiveValue(spacing)
+            const spacingValues = isResponsiveValue(spacing)
                 ? spacing
                 : {xs: spacing, sm: spacing, md: spacing, lg: spacing, xl: spacing};
             gridStyle.getContainerSpacingClasses(spacingValues)
-                .forEach(key => {
+                .forEach((key) => {
                     classNames.push(classes[key]);
                 });
         }
@@ -128,15 +128,15 @@ export function createGrid(options?: GridOptions): React.FC<Props> {
 
             // add layout classes
             gridStyle.getItemOrderClasses(order)
-                .forEach(key => {
+                .forEach((key) => {
                     classNames.push(classes[key]);
                 });
             gridStyle.getItemOffsetClasses(offset)
-                .forEach(key => {
+                .forEach((key) => {
                     classNames.push(classes[key]);
                 });
             gridStyle.getItemFlexClasses(flex)
-                .forEach(key => {
+                .forEach((key) => {
                     classNames.push(classes[key]);
                 });
         }
