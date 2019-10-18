@@ -1,5 +1,7 @@
 // imports
+import React from "react";
 import {createGrid} from "../../";
+import {mount} from "enzyme";
 
 
 // tests
@@ -17,5 +19,15 @@ describe("createGrid", () => {
         // check assertions
         expect(Grid).toBeDefined();
         expect(Grid).toBeInstanceOf(Function);
+    });
+
+    it("creates a Grid that renders", () => {
+
+        // create/render grid
+        const Grid = createGrid();
+        const wrapper = mount(<Grid container />);
+
+        // check assertions
+        expect(wrapper).toContainExactlyOneMatchingElement("div.nd_grid");
     });
 });
