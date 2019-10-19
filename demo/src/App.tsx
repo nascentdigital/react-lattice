@@ -1,6 +1,8 @@
 // imports
-import React from "react";
-import {createUseStyles} from "react-jss";
+import classNames from "classnames";
+import React, {Fragment, useState} from "react";
+import {createUseStyles, useTheme} from "react-jss";
+import {appStyles} from "./AppStyles";
 import {BasicLayout} from "./BasicLayout";
 import {ResponsiveLayout} from "./ResponsiveLayout";
 import {WrapLayout} from "./WrapLayout";
@@ -9,119 +11,92 @@ import {WrapLayout} from "./WrapLayout";
 // component
 export const App = () => {
 
-    // capture styles
-    const classes = useStyles();
+    // capture styles + state
+    const theme = useTheme();
+    const classes = useStyles({theme});
+    const [navOpen, setNavOpen] = useState(false);
+
+    const toggleNav = () => {
+        console.log(`nav ${navOpen ? "closing" : "opening"}`);
+        setNavOpen(!navOpen);
+    };
 
     // render
     return (
-        <div className={classes.container}>
-            <ResponsiveLayout/>
-            <BasicLayout/>
-            <WrapLayout/>
-        </div>
+        <Fragment>
+            <div className={classes.container}>
+                <header className={classes.header}>
+                    <button onClick={toggleNav}>Click Me</button>
+                </header>
+                <nav className={classNames(classes.nav, {[classes.navOpen]: navOpen})}>
+                    <h2>Lattice</h2>
+                    <h3>Grid</h3>
+                    <ul>
+                        <li>Static</li>
+                        <li>Responsive</li>
+                    </ul>
+                </nav>
+                <main className={classes.content}>
+                    <ResponsiveLayout/>
+                    <BasicLayout/>
+                    <WrapLayout/>
+                </main>
+            </div>
+        </Fragment>
     );
 };
 
 
-const useStyles = createUseStyles({
-    "@global": {
-        "body,h1,h2,h3,h4,h5,p,div,span,button": {
-            padding: 0,
-            margin: 0,
-            fontFamily: "'Raleway', sans-serif",
-            fontWeight: 300,
-            fontStyle: "normal",
-            color: "#000",
-            fontSmoothing: "antialiased"
-        },
-        body: {
-            backgroundColor: "#eee",
-            fontSize: "14px"
-        },
-        "h1,h2,h3,h4,h5": {
-            fontFamily: "'Lato', sans-serif",
-            fontWeight: 400
-        },
-        h1: {
-            fontSize: "28px"
-        },
-        h2: {
-            fontSize: "24px"
-        },
-        h3: {
-            fontSize: "18px"
-        },
-        h4: {
-            fontSize: "14px"
-        },
-        h5: {
-            fontSize: "12px"
-        },
-        code: {
-            fontFamily: "'Source Code Pro', monospace",
-            fontSize: "14px",
-            fontWeight: 300
-        },
-
-
-        button: {
-            boxSizing: "border-box",
-            minWidth: "64px",
-            padding: "4px 8px",
-            margin: "8px",
-            color: "rgba(0, 0, 0, 0.87)",
-            backgroundColor: "transparent",
-            fontSize: "14px",
-            fontWeight: 500,
-            lineHeight: "22px",
-            letterSpacing: "0.4px",
-            textAlign: "center",
-            textDecoration: "none",
-            textTransform: "uppercase",
-            border: "none",
-            borderRadius: "4px",
-            appearance: "none",
-            userSelect: "none",
-            cursor: "pointer",
-            transition: "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-
-            "&:hover, &:focus": {
-                backgroundColor: "rgba(0, 0, 0, 0.08)"
-            },
-
-            "&:focus": {
-                boxShadow: "0px 0px 5px 1px rgba(0, 0, 0, 0.4)",
-                outline: "none"
-            },
-
-            "&:active": {
-                transform: "scale(0.97)"
-            },
-
-            "&.outlined": {
-                border: "1px solid rgba(0, 0, 0, 0.23)",
-            },
-
-            "&.selected": {
-                color: "#1976d2",
-
-                "&:hover, &:focus": {
-                    backgroundColor: "rgba(25, 118, 210, 0.08)"
-                },
-
-                "&:focus": {
-                    boxShadow: "0px 0px 5px 1px rgba(25, 118, 210, 0.4)"
-                },
-
-                "&.outlined": {
-                    border: "1px solid rgba(25, 118, 210, 0.5)"
-                },
-            }
-        }
-    },
-
+const useStyles = createUseStyles<string>((theme: any) => ({
+    ...appStyles,
     container: {
+        position: "relative",
         minHeight: "100vh",
         color: "#000"
+    },
+    header: {
+        position: "fixed",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: "50px",
+        color: "#fff",
+        backgroundColor: "#000",
+        zIndex: 10,
+
+        "& button": {
+            color: "#fff"
+        }
+    },
+    nav: {
+        position: "fixed",
+        top: "50px",
+        left: "-250px",
+        bottom: 0,
+        width: "250px",
+        visibility: "hidden",
+        opacity: 0,
+        color: "#fff",
+        backgroundColor: "#000",
+        zIndex: 10,
+
+        [theme.responsive.up("md")]: {
+            width: "300px",
+            visibility: "visible",
+            left: 0,
+            opacity: 1
+        }
+    },
+    navOpen: {
+        left: 0,
+        visibility: "visible",
+        opacity: 1
+    },
+    content: {
+        paddingTop: "50px",
+
+        [theme.responsive.up("md")]: {
+            paddingLeft: "300px"
+        }
     }
-});
+}));
