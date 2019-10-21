@@ -15,14 +15,15 @@ interface IProps extends HTMLAttributes<HTMLButtonElement> {
 export const MenuIcon: React.FC<IProps> = (props) => {
 
     // resolve state + classes
-    const {active = false} = props;
+    const {active = false, className, ...htmlProps} = props;
     const classes = useStyles({active});
 
     // render
     return (
-        <button className={classNames("hamburger", "hamburger--spin", {"is-active": props.active}, classes.container)}
+        <button className={classNames("hamburger", "hamburger--spin", {"is-active": props.active}, classes.container,
+                           className)}
                 type="button"
-                onClick={props.onClick}>
+                {...htmlProps}>
             <span className={classNames("hamburger-box")}>
                 <span className={classNames("hamburger-inner")} />
             </span>
