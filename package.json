@@ -34,7 +34,6 @@
         "jss-preset-default": "^10.0.0"
     },
     "peerDependencies": {
-        "prop-types": "^15.5.4",
         "react": "^16.0.0",
         "react-dom": "^16.0.0",
         "react-jss": "^10.0.0"
