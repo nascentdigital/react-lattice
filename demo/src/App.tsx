@@ -1,9 +1,11 @@
 // imports
 import classNames from "classnames";
-import React, {Fragment, useState} from "react";
+import React, {useState} from "react";
 import {createUseStyles, useTheme} from "react-jss";
+import {AppContext} from "./AppContext";
 import {appStyles} from "./AppStyles";
 import {BasicLayout} from "./BasicLayout";
+import {Header} from "./components";
 import {ResponsiveLayout} from "./ResponsiveLayout";
 import {WrapLayout} from "./WrapLayout";
 
@@ -23,13 +25,10 @@ export const App = () => {
 
     // render
     return (
-        <Fragment>
+        <AppContext.Provider value={{navOpen, toggleNav}}>
             <div className={classes.container}>
-                <header className={classes.header}>
-                    <button onClick={toggleNav}>Click Me</button>
-                </header>
+                <Header />
                 <nav className={classNames(classes.nav, {[classes.navOpen]: navOpen})}>
-                    <h2>Lattice</h2>
                     <h3>Grid</h3>
                     <ul>
                         <li>Static</li>
@@ -42,7 +41,7 @@ export const App = () => {
                     <WrapLayout/>
                 </main>
             </div>
-        </Fragment>
+        </AppContext.Provider>
     );
 };
 
@@ -53,20 +52,6 @@ const useStyles = createUseStyles<string>((theme: any) => ({
         position: "relative",
         minHeight: "100vh",
         color: "#000"
-    },
-    header: {
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        height: "50px",
-        color: "#fff",
-        backgroundColor: "#000",
-        zIndex: 10,
-
-        "& button": {
-            color: "#fff"
-        }
     },
     nav: {
         position: "fixed",

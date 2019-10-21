@@ -36,62 +36,6 @@ export const appStyles: any = {
             fontFamily: "'Source Code Pro', monospace",
             fontSize: "14px",
             fontWeight: 300
-        },
-
-
-        button: {
-            boxSizing: "border-box",
-            minWidth: "64px",
-            padding: "4px 8px",
-            margin: "8px",
-            color: "rgba(0, 0, 0, 0.87)",
-            backgroundColor: "transparent",
-            fontSize: "14px",
-            fontWeight: 500,
-            lineHeight: "22px",
-            letterSpacing: "0.4px",
-            textAlign: "center",
-            textDecoration: "none",
-            textTransform: "uppercase",
-            border: "none",
-            borderRadius: "4px",
-            appearance: "none",
-            userSelect: "none",
-            cursor: "pointer",
-            transition: "background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-
-            "&:hover, &:focus": {
-                backgroundColor: "rgba(0, 0, 0, 0.08)"
-            },
-
-            "&:focus": {
-                boxShadow: "0px 0px 5px 1px rgba(0, 0, 0, 0.4)",
-                outline: "none"
-            },
-
-            "&:active": {
-                transform: "scale(0.97)"
-            },
-
-            "&.outlined": {
-                border: "1px solid rgba(0, 0, 0, 0.23)",
-            },
-
-            "&.selected": {
-                color: "#1976d2",
-
-                "&:hover, &:focus": {
-                    backgroundColor: "rgba(25, 118, 210, 0.08)"
-                },
-
-                "&:focus": {
-                    boxShadow: "0px 0px 5px 1px rgba(25, 118, 210, 0.4)"
-                },
-
-                "&.outlined": {
-                    border: "1px solid rgba(25, 118, 210, 0.5)"
-                },
-            }
         }
     }
 };
