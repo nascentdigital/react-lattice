@@ -8,6 +8,8 @@
     "dependencies": {
         "@types/classnames": "^2.2.9",
         "@types/node": "^12.11.1",
+        "@types/react": "file:../node_modules/@types/react",
+        "@types/react-dom": "file:../node_modules/@types/react-dom",
         "classnames": "^2.2.6",
         "hamburgers": "^1.1.3",
         "react": "file:../node_modules/react",
