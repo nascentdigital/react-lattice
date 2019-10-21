@@ -1,11 +1,11 @@
 // imports
 import {
-    GridBreakpoints,
-    GridBreakpointWidth
+    GridBreakpointWidth,
+    IGridBreakpoints
 } from "react-lattice";
 
 // constants
-export const breakpoints: GridBreakpoints = {
+export const breakpoints: IGridBreakpoints = {
     xs: {width:    0, spacing:  2},
     sm: {width:  680, spacing:  4},
     md: {width:  960, spacing:  8},

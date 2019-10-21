@@ -7,20 +7,20 @@ export const MaxSpacing = 10;
 // grid options types
 export type GridSpacingFunction = (spacing: Spacing) => number;
 export type GridBreakpointWidth = "xs" | "sm" | "md" | "lg" | "xl";
-export interface GridBreakpoint {
-    width: number
-    spacing: number | GridSpacingFunction
+export interface IGridBreakpoint {
+    width: number;
+    spacing: number | GridSpacingFunction;
 }
-export interface GridBreakpoints {
-    xs: GridBreakpoint
-    sm: GridBreakpoint
-    md: GridBreakpoint
-    lg: GridBreakpoint
-    xl: GridBreakpoint
+export interface IGridBreakpoints {
+    xs: IGridBreakpoint;
+    sm: IGridBreakpoint;
+    md: IGridBreakpoint;
+    lg: IGridBreakpoint;
+    xl: IGridBreakpoint;
 }
-export interface GridOptions {
-    breakpoints?: GridBreakpoints
-    namespace?: string
+export interface IGridOptions {
+    breakpoints?: IGridBreakpoints;
+    namespace?: string;
 }
 
 // grid property types / values
@@ -64,9 +64,4 @@ export function isItemColumn(value: number): value is ItemColumn {
 export function isItemOffset(value: number): value is ItemOffset {
     return value >= 0 && value <= GridColumnCount;
 }
-
-
-
-
-
 

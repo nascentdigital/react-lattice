@@ -1,4 +1,5 @@
 // imports
+import {Constants} from "../../Constants";
 import {
     Breakpoint,
     isResponsiveValue,
@@ -10,9 +11,9 @@ import {
     ContentAlignmentValues,
     Direction,
     DirectionValues,
-    GridBreakpoints,
     GridColumnCount,
-    GridOptions,
+    IGridBreakpoints,
+    IGridOptions,
     isItemColumn,
     isItemOffset,
     ItemAlignment,
@@ -32,43 +33,17 @@ import {
 } from "./GridTypes";
 
 
-// constants
-const DEFAULT_BREAKPOINTS: GridBreakpoints = {
-    xs: {
-        width: 0,
-        spacing: (space: Spacing) => space * 1
-    },
-    sm: {
-        width: 600,
-        spacing: (space: Spacing) => space * 2
-    },
-    md: {
-        width: 960,
-        spacing: (space: Spacing) => space * 3
-    },
-    lg: {
-        width: 1280,
-        spacing: (space: Spacing) => space * 4
-    },
-    xl: {
-        width: 1920,
-        spacing: (space: Spacing) => space * 8
-    }
-};
-const DEFAULT_NAMESPACE = "nd_";
-
-
 // class definition
 export class GridStyle {
 
-    private readonly _breakpoints: GridBreakpoints;
+    private readonly _breakpoints: IGridBreakpoints;
     private readonly _classPrefix: string;
 
-    constructor(options: GridOptions = {}) {
+    constructor(options: IGridOptions = {}) {
 
         // initialize instance variables
-        this._breakpoints = options.breakpoints || DEFAULT_BREAKPOINTS;
-        this._classPrefix = (options.namespace || DEFAULT_NAMESPACE) + "grid";
+        this._breakpoints = options.breakpoints || Constants.defaults.breakpoints;
+        this._classPrefix = (options.namespace || Constants.defaults.namespacePrefix) + "grid";
     }
 
 
@@ -125,20 +100,20 @@ export class GridStyle {
                 classes.push(classResolver(entry[0], entry[1]));
 
                 // look for XS fallback
-                if (entry[0] === Breakpoint.xs) {
+                if (entry[0] === "xs") {
                     defaultRequired = false;
                 }
             }
 
             // add default if required
             if (defaultRequired) {
-                classes.push(classResolver(Breakpoint.xs, defaultValue));
+                classes.push(classResolver("xs", defaultValue));
             }
         }
 
         // or handle singular value (push as xs upward)
         else {
-            classes.push(classResolver(Breakpoint.xs, value as T));
+            classes.push(classResolver("xs", value as T));
         }
 
         // return classes
@@ -271,13 +246,12 @@ export class GridStyle {
 
         // add responsive styles
         const breakpoints: any = this._breakpoints;
-        [Breakpoint.xs, Breakpoint.sm, Breakpoint.md, Breakpoint.lg, Breakpoint.xl].forEach((breakpoint) => {
+        ["xs", "sm", "md", "lg", "xl"].forEach((breakpoint: Breakpoint) => {
 
             // target correct media query (or use fallback for XS)
-            const breakpointName: string = Breakpoint[breakpoint];
             let styleDecl: any = {};
             let style: any = styles;
-            if (breakpoint !== Breakpoint.xs) {
+            if (breakpoint !== "xs") {
 
                 // make style declaration point to core styles
                 styleDecl = styles;
@@ -286,7 +260,7 @@ export class GridStyle {
                 style = {};
 
                 // bind media query to styles
-                styles[`@media screen and (min-width: ${breakpoints[breakpointName].width}px)`] = style;
+                styles[`@media screen and (min-width: ${breakpoints[breakpoint].width}px)`] = style;
             }
 
             // add container styles
@@ -342,7 +316,7 @@ export class GridStyle {
 
                 // determine spacing / space
                 const spacing = i as Spacing;
-                let spacer = breakpoints[breakpointName].spacing;
+                let spacer = breakpoints[breakpoint].spacing;
                 if (typeof spacer === "number") {
                     spacer = (s: number) => s * spacer;
                 }
@@ -397,7 +371,7 @@ export class GridStyle {
     }
 
     public getContainerDirectionClass(breakpoint: Breakpoint, value: Direction): string {
-        return `${this._classPrefix}-dir-${Breakpoint[breakpoint]}-${value}`;
+        return `${this._classPrefix}-dir-${breakpoint}-${value}`;
     }
 
     public getContainerDirectionClasses(value?: Direction | ResponsiveValue<Direction>): string[] {
@@ -406,7 +380,7 @@ export class GridStyle {
     }
 
     public getContainerWrappingClass(breakpoint: Breakpoint, value: Wrapping): string {
-        return `${this._classPrefix}-wrp-${Breakpoint[breakpoint]}-${value}`;
+        return `${this._classPrefix}-wrp-${breakpoint}-${value}`;
     }
 
     public getContainerWrappingClasses(value?: Wrapping | ResponsiveValue<Wrapping>): string[] {
@@ -415,7 +389,7 @@ export class GridStyle {
     }
 
     public getContainerJustificationClass(breakpoint: Breakpoint, value: Justification): string {
-        return `${this._classPrefix}-jst-${Breakpoint[breakpoint]}-${value}`;
+        return `${this._classPrefix}-jst-${breakpoint}-${value}`;
     }
 
     public getContainerJustificationClasses(value?: Justification | ResponsiveValue<Justification>): string[] {
@@ -424,7 +398,7 @@ export class GridStyle {
     }
 
     public getContainerContentAlignmentClass(breakpoint: Breakpoint, value: ContentAlignment): string {
-        return `${this._classPrefix}-algi-${Breakpoint[breakpoint]}-${value}`;
+        return `${this._classPrefix}-algi-${breakpoint}-${value}`;
     }
 
     public getContainerContentAlignmentClasses(value?: ContentAlignment | ResponsiveValue<ContentAlignment>): string[] {
@@ -433,7 +407,7 @@ export class GridStyle {
     }
 
     public getContainerItemAlignmentClass(breakpoint: Breakpoint, alignment: ItemAlignment): string {
-        return `${this._classPrefix}-algc-${Breakpoint[breakpoint]}-${alignment}`;
+        return `${this._classPrefix}-algc-${breakpoint}-${alignment}`;
     }
 
     public getContainerItemAlignmentClasses(value?: ItemAlignment | ResponsiveValue<ItemAlignment>): string[] {
@@ -442,7 +416,7 @@ export class GridStyle {
     }
 
     public getContainerSpacingClass(breakpoint: Breakpoint, spacing: Spacing): string {
-        return `${this._classPrefix}-spc-${Breakpoint[breakpoint]}-${spacing}`;
+        return `${this._classPrefix}-spc-${breakpoint}-${spacing}`;
     }
 
     public getContainerSpacingClasses(value?: Spacing | ResponsiveValue<Spacing>): string[] {
@@ -455,7 +429,7 @@ export class GridStyle {
     }
 
     public getItemOrderClass(breakpoint: Breakpoint, order: ItemOrder): string {
-        return `${this._classPrefix}-ord-${Breakpoint[breakpoint]}-${order}`;
+        return `${this._classPrefix}-ord-${breakpoint}-${order}`;
     }
 
     public getItemOrderClasses(value?: ItemOrder | ResponsiveValue<ItemOrder>): string[] {
@@ -464,7 +438,7 @@ export class GridStyle {
     }
 
     public getItemOffsetClass(breakpoint: Breakpoint, offset: ItemOffset): string {
-        return `${this._classPrefix}-off-${Breakpoint[breakpoint]}-${offset}`;
+        return `${this._classPrefix}-off-${breakpoint}-${offset}`;
     }
 
     public getItemOffsetClasses(value?: ItemOffset | ResponsiveValue<ItemOffset>): string[] {
@@ -475,25 +449,24 @@ export class GridStyle {
     public getItemFlexClass(breakpoint: Breakpoint, flex?: boolean | ItemColumn | ItemFlex): string {
 
         // skip if flex is not set
-        const breakpointName = Breakpoint[breakpoint];
         if (flex === false || flex === "none") {
-            return `${this._classPrefix}-flx-${breakpointName}-none`;
+            return `${this._classPrefix}-flx-${breakpoint}-none`;
         }
 
         // use auto flex if specified
         else if (flex === true || flex === "auto") {
-            return `${this._classPrefix}-flx-${breakpointName}`;
+            return `${this._classPrefix}-flx-${breakpoint}`;
         }
 
         // use flex grow / shrink if specified
         else if (flex === "grow" || flex === "shrink") {
-            return `${this._classPrefix}-flx-${breakpointName}-${flex}`;
+            return `${this._classPrefix}-flx-${breakpoint}-${flex}`;
         }
 
         // use absolute value if it's a number
         const column = flex as number;
         if (!isNaN(column) && column > 0 && column <= GridColumnCount) {
-            return `${this._classPrefix}-flx-${breakpointName}-${column}`;
+            return `${this._classPrefix}-flx-${breakpoint}-${column}`;
         }
 
         // or skip if unrecognized

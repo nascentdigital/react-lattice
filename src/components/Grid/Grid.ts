@@ -10,7 +10,7 @@ import {GridStyle} from "./GridStyle";
 import {
     ContentAlignment,
     Direction,
-    GridOptions,
+    IGridOptions,
     ItemAlignment,
     ItemColumn,
     ItemFlex,
@@ -46,7 +46,7 @@ export interface IProps extends HTMLAttributes<HTMLDivElement> {
 }
 
 // factory method
-export function createGrid(options?: GridOptions): React.FC<IProps> {
+export function createGrid(options?: IGridOptions): React.FC<IProps> {
 
     // create style
     const gridStyle = new GridStyle(options);

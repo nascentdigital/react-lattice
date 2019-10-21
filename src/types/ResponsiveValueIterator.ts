@@ -13,7 +13,7 @@ export class ResponsiveValueIterator<T> implements Iterable<[Breakpoint, T]> {
         this._value = value;
     }
 
-    entries(): ReadonlyArray<[Breakpoint, T]> {
+    public entries(): ReadonlyArray<[Breakpoint, T]> {
 
         // create result array
         const entries: Array<[Breakpoint, T]> = [];
@@ -31,26 +31,26 @@ export class ResponsiveValueIterator<T> implements Iterable<[Breakpoint, T]> {
         return entries;
     }
 
-    *[Symbol.iterator](): Iterator<[Breakpoint, T]> {
+    public *[Symbol.iterator](): Iterator<[Breakpoint, T]> {
 
         if (this._value.xs !== undefined) {
-            yield [Breakpoint.xs, this._value.xs];
+            yield ["xs", this._value.xs];
         }
 
         if (this._value.sm !== undefined) {
-            yield [Breakpoint.sm, this._value.sm];
+            yield ["sm", this._value.sm];
         }
 
         if (this._value.md !== undefined) {
-            yield [Breakpoint.md, this._value.md];
+            yield ["md", this._value.md];
         }
 
         if (this._value.lg !== undefined) {
-            yield [Breakpoint.lg, this._value.lg];
+            yield ["lg", this._value.lg];
         }
 
         if (this._value.xl !== undefined) {
-            yield [Breakpoint.xl, this._value.xl];
+            yield ["xl", this._value.xl];
         }
     }
 }
