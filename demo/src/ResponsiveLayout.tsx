@@ -21,7 +21,7 @@ export const ResponsiveLayout = () => {
     return (
         <Fragment>
             {renderBasic(classes)}
-            {responsiveColumnToRow(classes)}
+            {responsiveDisplayDirection(classes)}
             {renderResponsiveColumn(classes)}
         </Fragment>
     );
@@ -56,7 +56,7 @@ function renderBasic(classes: any) {
     );
 }
 
-function responsiveColumnToRow(classes: any) {
+function responsiveDisplayDirection(classes: any) {
     return (
         <Card>
             <h2>Changing display direction</h2>
