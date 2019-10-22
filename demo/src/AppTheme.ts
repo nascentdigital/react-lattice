@@ -1,18 +1,18 @@
 // imports
 import {
-    GridBreakpointWidth,
+    Breakpoint,
+    Breakpoints,
     IGridBreakpoints
 } from "react-lattice";
 
 // constants
-export const breakpoints: IGridBreakpoints = {
+export const gridBreakpoints: IGridBreakpoints = {
     xs: {width:    0, spacing:  2},
     sm: {width:  680, spacing:  4},
     md: {width:  960, spacing:  8},
     lg: {width: 1280, spacing: 12},
     xl: {width: 1920, spacing: 16}
 };
-const breakpointWidths: ReadonlyArray<GridBreakpointWidth> = ["xs", "sm", "md", "lg", "xl"];
 
 // exports
 export const theme = {
@@ -27,42 +27,42 @@ export const theme = {
 
 
 // helpers
-function MediaQueryUpTo(width: GridBreakpointWidth) {
-    return `@media (min-width: ${getBreakpointWidth(width)}px)`;
+function MediaQueryUpTo(breakpoint: Breakpoint) {
+    return `@media (min-width: ${getBreakpointWidth(breakpoint)}px)`;
 }
 
-function MediaQueryDownTo(width: GridBreakpointWidth) {
-    const limitOffset = breakpointWidths.indexOf(width) + 1;
-    return limitOffset === breakpointWidths.length
+function MediaQueryDownTo(breakpoint: Breakpoint) {
+    const limitOffset = Breakpoints.indexOf(breakpoint) + 1;
+    return limitOffset === Breakpoints.length
         ? MediaQueryUpTo("xs")
-        : `@media (max-width: ${getBreakpointWidth(breakpointWidths[limitOffset]) - 1}px)`;
+        : `@media (max-width: ${getBreakpointWidth(Breakpoints[limitOffset]) - 1}px)`;
 }
 
-function MediaQueryBetween(startWidth: GridBreakpointWidth, endWidth: GridBreakpointWidth) {
-    const limitOffset = breakpointWidths.indexOf(endWidth) + 1;
-    return limitOffset === breakpointWidths.length
-        ? MediaQueryUpTo(startWidth)
-        : `@media (min-width: ${getBreakpointWidth(startWidth)}px) ` +
-          `and (max-width: ${getBreakpointWidth(breakpointWidths[limitOffset]) - 1}px)`;
+function MediaQueryBetween(breakpointStart: Breakpoint, breakpointEnd: Breakpoint) {
+    const limitOffset = Breakpoints.indexOf(breakpointEnd) + 1;
+    return limitOffset === Breakpoints.length
+        ? MediaQueryUpTo(breakpointStart)
+        : `@media (min-width: ${getBreakpointWidth(breakpointStart)}px) ` +
+          `and (max-width: ${getBreakpointWidth(Breakpoints[limitOffset]) - 1}px)`;
 }
 
-function MediaQueryOnly(width: GridBreakpointWidth) {
-    return MediaQueryBetween(width, width);
+function MediaQueryOnly(breakpoint: Breakpoint) {
+    return MediaQueryBetween(breakpoint, breakpoint);
 }
 
-function MediaQueryWidth(width: GridBreakpointWidth) {
-    return `${getBreakpointWidth(width)}px`;
+function MediaQueryWidth(breakpoint: Breakpoint) {
+    return `${getBreakpointWidth(breakpoint)}px`;
 }
 
-function getBreakpointWidth(width: GridBreakpointWidth) {
+function getBreakpointWidth(breakpoint: Breakpoint) {
 
     // throw if breakpoint doesn't exist
-    const breakpoint = breakpoints[width];
-    if (breakpoint === undefined) {
-        throw new Error("No breakpoint defined for " + width);
+    const gridBreakpoint = gridBreakpoints[breakpoint];
+    if (gridBreakpoint === undefined) {
+        throw new Error("No breakpoint defined for " + breakpoint);
     }
 
     // return width
-    return breakpoint.width;
+    return gridBreakpoint.width;
 
 }

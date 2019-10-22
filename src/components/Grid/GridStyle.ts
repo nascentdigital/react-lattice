@@ -1,7 +1,7 @@
 // imports
 import {Constants} from "../../Constants";
 import {
-    Breakpoint,
+    Breakpoint, Breakpoints,
     IResponsiveValue,
     isResponsiveValue,
     ResponsiveValueIterator
@@ -246,7 +246,7 @@ export class GridStyle {
 
         // add responsive styles
         const breakpoints: any = this._breakpoints;
-        ["xs", "sm", "md", "lg", "xl"].forEach((breakpoint: Breakpoint) => {
+        Breakpoints.forEach((breakpoint: Breakpoint) => {
 
             // target correct media query (or use fallback for XS)
             let styleDecl: any = {};

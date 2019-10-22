@@ -1,12 +1,9 @@
 // imports
 import {BehaviorSubject, Observable} from "rxjs";
 import {filter} from "rxjs/operators";
-import {
-    IGridBreakpoint,
-    IGridBreakpoints
-} from "../components";
+import {IGridBreakpoints} from "../components";
 import {Constants} from "../Constants";
-import {Breakpoint} from "../types";
+import {Breakpoint, Breakpoints} from "../types";
 
 
 // type definitions
@@ -17,6 +14,7 @@ interface IBreakpointContext {
     mediaQuery?: any;
     mediaQueryCallback?: (e: any) => void;
 }
+
 type BreakpointObservation = Breakpoint | null;
 
 
@@ -25,43 +23,17 @@ export class BreakpointObserver {
 
     private static _sharedInstance?: BreakpointObserver;
 
-    public static get sharedInstance() {
-
-        // create instance, if required
-        if (this._sharedInstance === undefined) {
-            this._sharedInstance = new BreakpointObserver(Constants.defaults.breakpoints);
-        }
-
-        // return shared instance
-        return this._sharedInstance;
-    }
-
-    private static createContexts(gridBreakpoints: IGridBreakpoints): IBreakpointContext[] {
-
-        // create contexts
-        const contexts: IBreakpointContext[] = [];
-
-        // iterate over breakpoints
-
-
-        // return contexts
-        return contexts;
-    }
-
     private readonly _contexts: IBreakpointContext[];
     private _current: BreakpointObservation;
     private _current$: BehaviorSubject<BreakpointObservation>;
 
 
-    constructor(breakpoints: IGridBreakpoints) {
+    constructor(gridBreakpoints: IGridBreakpoints) {
 
         // initialize instance variables
-        this._contexts = [];
+        this._contexts = BreakpointObserver.createContexts(gridBreakpoints);
         this._current = null;
         this._current$ = new BehaviorSubject<BreakpointObservation>(this._current);
-
-        // transform grid breakpoints into contexts
-
 
         // bind breakpoints
         this._contexts.forEach((context) => {
@@ -81,6 +53,51 @@ export class BreakpointObserver {
         });
     }
 
+    public static get sharedInstance() {
+
+        // create instance, if required
+        if (this._sharedInstance === undefined) {
+            this._sharedInstance = new BreakpointObserver(Constants.defaults.breakpoints);
+        }
+
+        // return shared instance
+        return this._sharedInstance;
+    }
+
+    private static createContexts(gridBreakpoints: IGridBreakpoints): IBreakpointContext[] {
+
+        // create contexts
+        const contexts: IBreakpointContext[] = [];
+
+        // iterate over breakpoints
+        Breakpoints.forEach((breakpoint: Breakpoint, breakpointIndex: number) => {
+
+            // create base context
+            const gridBreakpoint = gridBreakpoints[breakpoint];
+            const context: IBreakpointContext = {
+                breakpoint: breakpoint,
+                start: gridBreakpoint.width
+            };
+
+            // special handling for upper breakpoint
+            if (breakpointIndex + 1 < Breakpoints.length) {
+
+                // resolve next breakpoint
+                const endBreakpoint = Breakpoints[breakpointIndex + 1];
+                const endGridBreakpoint = gridBreakpoints[endBreakpoint];
+
+                // update context
+                context.end = endGridBreakpoint.width - 1;
+            }
+
+            // add context
+            contexts.push(context);
+        });
+
+        // return contexts
+        return contexts;
+    }
+
     get current(): BreakpointObservation {
         return this._current;
     }
@@ -95,36 +112,6 @@ export class BreakpointObserver {
             this._current = breakpoint;
             this._current$.next(breakpoint);
         }
-    }
-
-    setBreakpoint(breakpoint: Breakpoint, start: number) {
-
-        // TODO: throw if breakpoint shouldn't be directly assigned
-        if (breakpoint === Breakpoint.unknown
-            || breakpoint === Breakpoint.xs) {
-            return;
-        }
-
-        // TODO: throw exception if there are conflicts
-        if (breakpoint !== Breakpoint.xl
-            && (this._breakpointConfigurations[breakpoint + 1].end || 0) <= start) {
-            return;
-        }
-
-        // skip if breakpoint position is unchanged
-        const configuration = this._breakpointConfigurations[breakpoint];
-        if (configuration.start === start) {
-            return;
-        }
-
-        // update breakpoint
-        configuration.start = start;
-        this.bindBreakpoint(configuration);
-
-        // update previous breakpoint
-        const previousConfiguration = this._breakpointConfigurations[breakpoint - 1];
-        previousConfiguration.end = start - 1;
-        this.bindBreakpoint(previousConfiguration);
     }
 
     private bindBreakpoint(context: IBreakpointContext) {

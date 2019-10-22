@@ -6,7 +6,6 @@ export const MaxSpacing = 10;
 
 // grid options types
 export type GridSpacingFunction = (spacing: Spacing) => number;
-export type GridBreakpointWidth = "xs" | "sm" | "md" | "lg" | "xl";
 export interface IGridBreakpoint {
     width: number;
     spacing: number | GridSpacingFunction;

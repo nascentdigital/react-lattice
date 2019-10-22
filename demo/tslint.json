@@ -9,6 +9,7 @@
         "no-consecutive-blank-lines": [true, 2],
         "no-console": false,
         "object-literal-key-quotes": [true, "as-needed"],
+        "object-literal-shorthand": false,
         "object-literal-sort-keys": false,
         "one-line": false,
         "trailing-comma": false,
