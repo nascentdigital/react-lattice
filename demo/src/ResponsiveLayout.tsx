@@ -21,6 +21,7 @@ export const ResponsiveLayout = () => {
     return (
         <Fragment>
             {renderBasic(classes)}
+            {responsiveColumnToRow(classes)}
             {renderResponsiveColumn(classes)}
         </Fragment>
     );
@@ -49,6 +50,44 @@ function renderBasic(classes: any) {
                       flex={{xs: 12, md: 6}}>
                     This is below on mobile / tablet,<br/>
                     and to the right on larger screens.
+                </Grid>
+            </Grid>
+        </Card>
+    );
+}
+
+function responsiveColumnToRow(classes: any) {
+    return (
+        <Card>
+            <h2>Changing display direction</h2>
+            <Grid className={classes.viewer}
+                  container
+                  direction={{xs: "column", sm: "row", md: "columnReverse", lg: "rowReverse"}}
+                  alignContent="stretch"
+                  alignItems="stretch">
+                <Grid className={classes.block}
+                      style={{backgroundColor: "rgb( 66, 160, 206)"}}
+                      item
+                      flex={{xs: 12, sm: 4, md: 12, lg: 4}}>
+                    This is above on xs,<br/>
+                    This is left on sm,<br/>
+                    This is bottom on md,<br/>
+                    This is right on lg.
+                </Grid>
+                <Grid className={classes.block}
+                      style={{backgroundColor: "rgb( 22, 80, 103)"}}
+                      item
+                      flex={{xs: 12, sm: 4, md: 12, lg: 4}}>
+                    This is always in the middle.
+                </Grid>
+                <Grid className={classes.block}
+                      style={{backgroundColor: "rgb( 166, 60, 26)"}}
+                      item
+                      flex={{xs: 12, sm: 4, md: 12, lg: 4}}>
+                    This is bottom on xs,<br/>
+                    This is right on sm,<br/>
+                    This is above on md,<br/>
+                    This is left on lg.
                 </Grid>
             </Grid>
         </Card>
