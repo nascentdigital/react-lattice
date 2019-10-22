@@ -3,8 +3,8 @@ import {create as createJss} from "jss";
 import preset from "jss-preset-default";
 import React, {HTMLAttributes} from "react";
 import {
-    isResponsiveValue,
-    ResponsiveValue
+    IResponsiveValue,
+    isResponsiveValue
 } from "../../types";
 import {GridStyle} from "./GridStyle";
 import {
@@ -33,16 +33,16 @@ jss.setup(preset());
 export interface IProps extends HTMLAttributes<HTMLDivElement> {
     tag?: string;
     container?: boolean;
-    direction?: Direction | ResponsiveValue<Direction>;
-    justify?: Justification | ResponsiveValue<Justification>;
-    alignItems?: ItemAlignment | ResponsiveValue<ItemAlignment>;
-    alignContent?: ContentAlignment | ResponsiveValue<ContentAlignment>;
-    spacing?: Spacing | ResponsiveValue<Spacing>;
-    wrap?: Wrapping | ResponsiveValue<Wrapping>;
+    direction?: Direction | IResponsiveValue<Direction>;
+    justify?: Justification | IResponsiveValue<Justification>;
+    alignItems?: ItemAlignment | IResponsiveValue<ItemAlignment>;
+    alignContent?: ContentAlignment | IResponsiveValue<ContentAlignment>;
+    spacing?: Spacing | IResponsiveValue<Spacing>;
+    wrap?: Wrapping | IResponsiveValue<Wrapping>;
     item?: boolean;
-    flex?: boolean | ItemColumn | ItemFlex | ResponsiveValue<boolean | ItemColumn | ItemFlex>;
-    offset?: ItemOffset | ResponsiveValue<ItemOffset>;
-    order?: ItemOrder | ResponsiveValue<ItemOrder>;
+    flex?: boolean | ItemColumn | ItemFlex | IResponsiveValue<boolean | ItemColumn | ItemFlex>;
+    offset?: ItemOffset | IResponsiveValue<ItemOffset>;
+    order?: ItemOrder | IResponsiveValue<ItemOrder>;
 }
 
 // factory method

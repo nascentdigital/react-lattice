@@ -1,17 +1,16 @@
 
 // types
-export interface ResponsiveValue<T> {
-
-    readonly xs?: T
-    readonly sm?: T
-    readonly md?: T
-    readonly lg?: T
-    readonly xl?: T
-}
+export interface IResponsiveValue<T> {
+    readonly xs?: T;
+    readonly sm?: T;
+    readonly md?: T;
+    readonly lg?: T;
+    readonly xl?: T;
+};
 
 
 // type guards
-export function isResponsiveValue<T>(value: any): value is ResponsiveValue<T> {
+export function isResponsiveValue<T>(value: any): value is IResponsiveValue<T> {
     return value instanceof Object
         && (value.hasOwnProperty("xs")
             || value.hasOwnProperty("sm")

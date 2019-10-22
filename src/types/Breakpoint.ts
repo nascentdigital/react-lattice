@@ -15,5 +15,7 @@ export function breakpointOrdinal(breakpoint: Breakpoint) {
             return 3;
         case "xl":
             return 4;
+        default:
+            throw Error("Invalid breakpoint: " + breakpoint);
     }
 }

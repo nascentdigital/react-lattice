@@ -1,15 +1,15 @@
 // imports
 import {Breakpoint} from "./Breakpoint";
-import {ResponsiveValue} from "./ResponsiveValue";
+import {IResponsiveValue} from "./ResponsiveValue";
 
 
 // types
 export class ResponsiveValueIterator<T> implements Iterable<[Breakpoint, T]> {
 
-    private readonly _value: ResponsiveValue<T>;
+    private readonly _value: IResponsiveValue<T>;
 
 
-    constructor(value: ResponsiveValue<T>) {
+    constructor(value: IResponsiveValue<T>) {
         this._value = value;
     }
 

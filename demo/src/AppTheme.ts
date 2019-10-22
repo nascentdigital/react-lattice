@@ -28,22 +28,22 @@ export const theme = {
 
 // helpers
 function MediaQueryUpTo(width: GridBreakpointWidth) {
-    return `@media (min-width: ${breakpoints[width].width}px)`;
+    return `@media (min-width: ${getBreakpointWidth(width)}px)`;
 }
 
 function MediaQueryDownTo(width: GridBreakpointWidth) {
     const limitOffset = breakpointWidths.indexOf(width) + 1;
     return limitOffset === breakpointWidths.length
         ? MediaQueryUpTo("xs")
-        : `@media (max-width: ${breakpoints[breakpointWidths[limitOffset]].width - 1}px)`;
+        : `@media (max-width: ${getBreakpointWidth(breakpointWidths[limitOffset]) - 1}px)`;
 }
 
 function MediaQueryBetween(startWidth: GridBreakpointWidth, endWidth: GridBreakpointWidth) {
     const limitOffset = breakpointWidths.indexOf(endWidth) + 1;
     return limitOffset === breakpointWidths.length
         ? MediaQueryUpTo(startWidth)
-        : `@media (min-width: ${breakpoints[startWidth].width}px) ` +
-          `and (max-width: ${breakpoints[breakpointWidths[limitOffset]].width - 1}px)`;
+        : `@media (min-width: ${getBreakpointWidth(startWidth)}px) ` +
+          `and (max-width: ${getBreakpointWidth(breakpointWidths[limitOffset]) - 1}px)`;
 }
 
 function MediaQueryOnly(width: GridBreakpointWidth) {
@@ -51,5 +51,18 @@ function MediaQueryOnly(width: GridBreakpointWidth) {
 }
 
 function MediaQueryWidth(width: GridBreakpointWidth) {
-    return `${breakpoints[width].width}px`;
+    return `${getBreakpointWidth(width)}px`;
+}
+
+function getBreakpointWidth(width: GridBreakpointWidth) {
+
+    // throw if breakpoint doesn't exist
+    const breakpoint = breakpoints[width];
+    if (breakpoint === undefined) {
+        throw new Error("No breakpoint defined for " + width);
+    }
+
+    // return width
+    return breakpoint.width;
+
 }

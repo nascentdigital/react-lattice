@@ -2,8 +2,8 @@
 import {Constants} from "../../Constants";
 import {
     Breakpoint,
+    IResponsiveValue,
     isResponsiveValue,
-    ResponsiveValue,
     ResponsiveValueIterator
 } from "../../types";
 import {
@@ -79,7 +79,7 @@ export class GridStyle {
         return style;
     }
 
-    private static resolveResponsiveClasses<T>(value: undefined | T | ResponsiveValue<T>,
+    private static resolveResponsiveClasses<T>(value: undefined | T | IResponsiveValue<T>,
                                                classResolver: (breakpoint: Breakpoint, value: T) => string,
                                                defaultValue: T): string[] {
 
@@ -97,7 +97,7 @@ export class GridStyle {
             for (const entry of new ResponsiveValueIterator(value).entries()) {
 
                 // add entry
-                classes.push(classResolver(entry[0], entry[1]));
+                classes.push(classResolver(entry[0], entry[1] as T));
 
                 // look for XS fallback
                 if (entry[0] === "xs") {
@@ -374,7 +374,7 @@ export class GridStyle {
         return `${this._classPrefix}-dir-${breakpoint}-${value}`;
     }
 
-    public getContainerDirectionClasses(value?: Direction | ResponsiveValue<Direction>): string[] {
+    public getContainerDirectionClasses(value?: Direction | IResponsiveValue<Direction>): string[] {
         return GridStyle.resolveResponsiveClasses(value,
             (b, v) => this.getContainerDirectionClass(b, v), "row" as Direction);
     }
@@ -383,7 +383,7 @@ export class GridStyle {
         return `${this._classPrefix}-wrp-${breakpoint}-${value}`;
     }
 
-    public getContainerWrappingClasses(value?: Wrapping | ResponsiveValue<Wrapping>): string[] {
+    public getContainerWrappingClasses(value?: Wrapping | IResponsiveValue<Wrapping>): string[] {
         return GridStyle.resolveResponsiveClasses(value,
             (b, v) => this.getContainerWrappingClass(b, v), "none" as Wrapping);
     }
@@ -392,7 +392,7 @@ export class GridStyle {
         return `${this._classPrefix}-jst-${breakpoint}-${value}`;
     }
 
-    public getContainerJustificationClasses(value?: Justification | ResponsiveValue<Justification>): string[] {
+    public getContainerJustificationClasses(value?: Justification | IResponsiveValue<Justification>): string[] {
         return GridStyle.resolveResponsiveClasses(value,
             (b, v) => this.getContainerJustificationClass(b, v), "flexStart" as Justification);
     }
@@ -401,7 +401,8 @@ export class GridStyle {
         return `${this._classPrefix}-algi-${breakpoint}-${value}`;
     }
 
-    public getContainerContentAlignmentClasses(value?: ContentAlignment | ResponsiveValue<ContentAlignment>): string[] {
+    public getContainerContentAlignmentClasses(value?: ContentAlignment
+                                               | IResponsiveValue<ContentAlignment>): string[] {
         return GridStyle.resolveResponsiveClasses(value,
             (b, v) => this.getContainerContentAlignmentClass(b, v), "stretch" as ContentAlignment);
     }
@@ -410,7 +411,7 @@ export class GridStyle {
         return `${this._classPrefix}-algc-${breakpoint}-${alignment}`;
     }
 
-    public getContainerItemAlignmentClasses(value?: ItemAlignment | ResponsiveValue<ItemAlignment>): string[] {
+    public getContainerItemAlignmentClasses(value?: ItemAlignment | IResponsiveValue<ItemAlignment>): string[] {
         return GridStyle.resolveResponsiveClasses(value,
             (b, v) => this.getContainerItemAlignmentClass(b, v), "stretch" as ItemAlignment);
     }
@@ -419,7 +420,7 @@ export class GridStyle {
         return `${this._classPrefix}-spc-${breakpoint}-${spacing}`;
     }
 
-    public getContainerSpacingClasses(value?: Spacing | ResponsiveValue<Spacing>): string[] {
+    public getContainerSpacingClasses(value?: Spacing | IResponsiveValue<Spacing>): string[] {
         return GridStyle.resolveResponsiveClasses(value,
             (b, v) => this.getContainerSpacingClass(b, v), 0 as Spacing);
     }
@@ -432,7 +433,7 @@ export class GridStyle {
         return `${this._classPrefix}-ord-${breakpoint}-${order}`;
     }
 
-    public getItemOrderClasses(value?: ItemOrder | ResponsiveValue<ItemOrder>): string[] {
+    public getItemOrderClasses(value?: ItemOrder | IResponsiveValue<ItemOrder>): string[] {
         return GridStyle.resolveResponsiveClasses(value,
             (b, v) => this.getItemOrderClass(b, v), "initial" as ItemOrder);
     }
@@ -441,7 +442,7 @@ export class GridStyle {
         return `${this._classPrefix}-off-${breakpoint}-${offset}`;
     }
 
-    public getItemOffsetClasses(value?: ItemOffset | ResponsiveValue<ItemOffset>): string[] {
+    public getItemOffsetClasses(value?: ItemOffset | IResponsiveValue<ItemOffset>): string[] {
         return GridStyle.resolveResponsiveClasses(value,
             (b, v) => this.getItemOffsetClass(b, v), 0 as ItemOffset);
     }
@@ -476,7 +477,7 @@ export class GridStyle {
     }
 
     public getItemFlexClasses(
-        value?: boolean | ItemColumn | ItemFlex | ResponsiveValue<boolean | ItemColumn | ItemFlex>) {
+        value?: boolean | ItemColumn | ItemFlex | IResponsiveValue<boolean | ItemColumn | ItemFlex>) {
 
         return GridStyle.resolveResponsiveClasses(value,
             (b, v) => this.getItemFlexClass(b, v), "auto" as ItemFlex);
