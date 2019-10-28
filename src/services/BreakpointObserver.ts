@@ -3,7 +3,7 @@ import {BehaviorSubject, Observable} from "rxjs";
 import {filter} from "rxjs/operators";
 import {IGridBreakpoints} from "../components";
 import {Constants} from "../Constants";
-import {Breakpoint, Breakpoints} from "../types";
+import {Breakpoint, Breakpoints, BreakpointObservation } from "../types";
 
 
 // type definitions
@@ -14,9 +14,6 @@ interface IBreakpointContext {
     mediaQuery?: any;
     mediaQueryCallback?: (e: any) => void;
 }
-
-type BreakpointObservation = Breakpoint | null;
-
 
 // class definition
 export class BreakpointObserver {

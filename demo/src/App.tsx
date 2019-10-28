@@ -1,7 +1,8 @@
 // imports
 import classNames from "classnames";
-import React, {useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {createUseStyles, useTheme} from "react-jss";
+import { useBreakpoint } from "react-lattice";
 import {AppContext} from "./AppContext";
 import {appStyles} from "./AppStyles";
 import {BasicLayout} from "./BasicLayout";
@@ -17,11 +18,26 @@ export const App = () => {
     const theme = useTheme();
     const classes = useStyles({theme});
     const [navOpen, setNavOpen] = useState(false);
+    const breakpoint = useBreakpoint();
+    const [currentBreakpoint, setCurrentBreakpoint] = useState(breakpoint);
 
     const toggleNav = () => {
         console.log(`nav ${navOpen ? "closing" : "opening"}`);
         setNavOpen(!navOpen);
     };
+
+    useEffect(() => {
+        if (breakpoint !== currentBreakpoint) {
+            if (currentBreakpoint === "xs" && breakpoint === "sm") {
+                console.log("breakpoint update from XS -> SM");
+                setNavOpen(true);
+            } else if (currentBreakpoint === "sm" && breakpoint === "xs") {
+                console.log("reverse size SM -> XS");
+                setNavOpen(false);
+            }
+            setCurrentBreakpoint(breakpoint);
+        }
+    }, [breakpoint]);
 
     // render
     return (
