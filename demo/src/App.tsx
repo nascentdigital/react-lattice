@@ -1,6 +1,6 @@
 // imports
 import classNames from "classnames";
-import React, {useContext, useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {createUseStyles, useTheme} from "react-jss";
 import { useBreakpoint } from "react-lattice";
 import {AppContext} from "./AppContext";
