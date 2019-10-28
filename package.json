@@ -30,10 +30,8 @@
         "deploy": "gh-pages -d docs"
     },
     "dependencies": {
-        "@types/lodash": "^4.14.144",
         "jss": "^10.0.0",
         "jss-preset-default": "^10.0.0",
-        "lodash": "^4.17.15",
         "rxjs": "^6.5.3"
     },
     "peerDependencies": {
