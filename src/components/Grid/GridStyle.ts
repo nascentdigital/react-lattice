@@ -263,7 +263,7 @@ export class GridStyle {
                 styles[`@media screen and (min-width: ${breakpoints[breakpoint].width}px)`] = style;
             }
 
-            // add container styles
+            // add direction classes
             for (const value of DirectionValues) {
                 const className = this.getContainerDirectionClass(breakpoint, value);
                 styleDecl[className] = {};
@@ -272,6 +272,7 @@ export class GridStyle {
                 };
             }
 
+            // add wrapping classes
             for (const value of WrappingValues) {
                 const className = this.getContainerWrappingClass(breakpoint, value);
                 styleDecl[className] = {};
@@ -280,6 +281,7 @@ export class GridStyle {
                 };
             }
 
+            // add justification classes
             for (const value of JustificationValues) {
                 const className = this.getContainerJustificationClass(breakpoint, value);
                 styleDecl[className] = {};
@@ -288,6 +290,7 @@ export class GridStyle {
                 };
             }
 
+            // add content alignment classes
             for (const value of ContentAlignmentValues) {
                 const className = this.getContainerContentAlignmentClass(breakpoint, value);
                 styleDecl[className] = {};
@@ -296,6 +299,7 @@ export class GridStyle {
                 };
             }
 
+            // add item alignment classes
             for (const value of ItemAlignmentValues) {
                 const className = this.getContainerItemAlignmentClass(breakpoint, value);
                 styleDecl[className] = {};
@@ -304,6 +308,7 @@ export class GridStyle {
                 };
             }
 
+            // add item order classes
             for (const value of ItemOrderValues) {
                 const className = this.getItemOrderClass(breakpoint, value);
                 styleDecl[className] = {};
@@ -312,16 +317,18 @@ export class GridStyle {
                 };
             }
 
+            // add spacing classes
             for (let i = 0; i <= MaxSpacing; ++i) {
 
                 // determine spacing / space
                 const spacing = i as Spacing;
-                let spacer = breakpoints[breakpoint].spacing;
-                if (typeof spacer === "number") {
-                    spacer = (s: number) => s * spacer;
-                }
-                const space: number = spacer(spacing);
+                const spacer = breakpoints[breakpoint].spacing;
+                const spacerFn = typeof spacer === "number"
+                    ? (s: number) => s * spacer
+                    : spacer;
+                const space: number = spacerFn(spacing);
 
+                // generate spacing class
                 const className = this.getContainerSpacingClass(breakpoint, spacing);
                 styleDecl[className] = {};
                 style[className] = {
@@ -337,23 +344,24 @@ export class GridStyle {
                 };
             }
 
+            // add flex classes
             for (const value of ItemFlexValues) {
                 const className = this.getItemFlexClass(breakpoint, value);
                 styleDecl[className] = {};
                 style[className] = GridStyle.getItemFlexStyle(value);
             }
 
-            // add items styles
+            // add column-specific classes
             for (let i = 0; i <= GridColumnCount; ++i) {
 
-                // set item size
+                // add flex for column (if applicable)
                 if (isItemColumn(i)) {
                     const className = this.getItemFlexClass(breakpoint, i);
                     styleDecl[className] = {};
                     style[className] = GridStyle.getItemFlexColumnStyle(i);
                 }
 
-                // set offset style (if applicable)
+                // add offset for column (if applicable)
                 if (isItemOffset(i)) {
                     const className = this.getItemOffsetClass(breakpoint, i);
                     styleDecl[className] = {};
