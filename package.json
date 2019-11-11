@@ -1,7 +1,7 @@
 {
     "private": false,
     "name": "react-lattice",
-    "version": "1.0.4",
+    "version": "1.0.5",
     "description": "A set of flexible React components that simplify responsive web development.",
     "keywords": [
         "react",
