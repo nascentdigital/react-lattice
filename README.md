@@ -7,7 +7,7 @@
 ## Install
 
 ```bash
-npm i -s react-lattice
+npm i -s @nascentdigital/react-lattice
 ```
 
 ## Usage

@@ -1,6 +1,6 @@
 {
     "private": false,
-    "name": "react-lattice",
+    "name": "@nascentdigital/react-lattice",
     "version": "1.0.6",
     "description": "A set of flexible React components that simplify responsive web development.",
     "keywords": [

@@ -45,6 +45,7 @@ export interface IProps extends HTMLAttributes<HTMLDivElement> {
     order?: ItemOrder | IResponsiveValue<ItemOrder>;
 }
 
+
 // factory method
 export function createGrid(options?: IGridOptions): React.FC<IProps> {
 

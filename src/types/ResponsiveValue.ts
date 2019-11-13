@@ -6,7 +6,7 @@ export interface IResponsiveValue<T> {
     readonly md?: T;
     readonly lg?: T;
     readonly xl?: T;
-};
+}
 
 
 // type guards
