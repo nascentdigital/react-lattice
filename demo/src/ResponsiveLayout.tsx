@@ -2,12 +2,6 @@
 import React, {Fragment} from "react";
 import {createUseStyles} from "react-jss";
 import {
-    ContentAlignmentValues,
-    DirectionValues,
-    ItemAlignmentValues,
-    JustificationValues
-} from "react-lattice";
-import {
     Card,
     Grid
 } from "./components";

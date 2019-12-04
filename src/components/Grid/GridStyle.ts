@@ -1,18 +1,19 @@
 // imports
-import {Constants} from "../../Constants";
 import {
-    Breakpoint, Breakpoints,
+    Breakpoint,
+    Breakpoints,
+    BreakpointsDefinition,
     IResponsiveValue,
     isResponsiveValue,
     ResponsiveValueIterator
-} from "../../types";
+} from "@nascentdigital/lattice";
+import {LatticeDefaults} from "../../LatticeDefaults";
 import {
     ContentAlignment,
     ContentAlignmentValues,
     Direction,
     DirectionValues,
     GridColumnCount,
-    IGridBreakpoints,
     IGridOptions,
     isItemColumn,
     isItemOffset,
@@ -28,6 +29,7 @@ import {
     JustificationValues,
     MaxSpacing,
     Spacing,
+    SpacingDefinition,
     Wrapping,
     WrappingValues
 } from "./GridTypes";
@@ -36,14 +38,16 @@ import {
 // class definition
 export class GridStyle {
 
-    private readonly _breakpoints: IGridBreakpoints;
+    private readonly _breakpoints: BreakpointsDefinition;
+    private readonly _spacing: SpacingDefinition;
     private readonly _classPrefix: string;
 
     constructor(options: IGridOptions = {}) {
 
         // initialize instance variables
-        this._breakpoints = options.breakpoints || Constants.defaults.breakpoints;
-        this._classPrefix = (options.namespace || Constants.defaults.namespacePrefix) + "grid";
+        this._breakpoints = options.breakpoints || LatticeDefaults.breakpoints;
+        this._spacing = options.spacing || LatticeDefaults.spacing;
+        this._classPrefix = (options.namespace || LatticeDefaults.namespacePrefix) + "grid";
     }
 
 
@@ -245,7 +249,8 @@ export class GridStyle {
         };
 
         // add responsive styles
-        const breakpoints: any = this._breakpoints;
+        const breakpointOptions = this._breakpoints;
+        const spacingOptions = this._spacing;
         Breakpoints.forEach((breakpoint: Breakpoint) => {
 
             // target correct media query (or use fallback for XS)
@@ -260,7 +265,7 @@ export class GridStyle {
                 style = {};
 
                 // bind media query to styles
-                styles[`@media screen and (min-width: ${breakpoints[breakpoint].width}px)`] = style;
+                styles[`@media screen and (min-width: ${breakpointOptions[breakpoint]}px)`] = style;
             }
 
             // add direction classes
@@ -322,7 +327,7 @@ export class GridStyle {
 
                 // determine spacing / space
                 const spacing = i as Spacing;
-                const spacer = breakpoints[breakpoint].spacing;
+                const spacer = spacingOptions[breakpoint];
                 const spacerFn = typeof spacer === "number"
                     ? (s: number) => s * spacer
                     : spacer;

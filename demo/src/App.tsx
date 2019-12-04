@@ -1,8 +1,8 @@
 // imports
+import { useBreakpoint } from "@nascentdigital/react-lattice";
 import classNames from "classnames";
 import React, {useEffect, useState} from "react";
 import {createUseStyles, useTheme} from "react-jss";
-import { useBreakpoint } from "react-lattice";
 import {AppContext} from "./AppContext";
 import {appStyles} from "./AppStyles";
 import {BasicLayout} from "./BasicLayout";

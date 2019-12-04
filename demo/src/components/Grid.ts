@@ -1,7 +1,7 @@
 // imports
-import {createGrid} from "react-lattice";
-import {gridBreakpoints} from "../AppTheme";
+import {createGrid} from "@nascentdigital/react-lattice";
+import {gridBreakpoints, gridSpacing} from "../AppTheme";
 
 
 // exports
-export const Grid = createGrid({breakpoints: gridBreakpoints});
+export const Grid = createGrid({breakpoints: gridBreakpoints, spacing: gridSpacing});

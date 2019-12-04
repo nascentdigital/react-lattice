@@ -1,32 +1,35 @@
-import { useState, useEffect } from 'react';
-import { distinctUntilChanged } from 'rxjs/operators';
-import { BreakpointObservation } from "../types"
-import { BreakpointObserver } from "../services/BreakpointObserver"
+// imports
+import {BreakpointObservation, BreakpointObserver, BreakpointsDefinition} from "@nascentdigital/lattice";
+import {useEffect, useState} from "react";
+import {distinctUntilChanged} from "rxjs/operators";
+import {LatticeDefaults} from "../LatticeDefaults";
 
-export function useBreakpoint(): BreakpointObservation {
 
-  // get the breakpointObserver instance
-  const breakpointObserver = BreakpointObserver.sharedInstance;
+// hook definition
+export function useBreakpoint(breakpoints: BreakpointsDefinition = LatticeDefaults.breakpoints): BreakpointObservation {
 
-  // initialize the breakpoint to the current observation
-  const [breakpoint, setBreakpoint] = useState<BreakpointObservation>(breakpointObserver.current)
+    // get the breakpointObserver instance
+    const breakpointObserver = new BreakpointObserver(breakpoints);
 
-  useEffect(() => {
-    // subscribe to the breakpointObserver
-    const subscription = breakpointObserver.current$
-      .pipe(
-        // filtered unless different from the previously passed value
-        distinctUntilChanged()
-      )
-      .subscribe((observation) => {
-        // update the breakpoint with the new observation
-        setBreakpoint(observation)
-      })
-    
-    // unsubscribe breakpointObserver on cleanup
-    return () => subscription.unsubscribe()
-  }, [])
+    // initialize the breakpoint to the current observation
+    const [breakpoint, setBreakpoint] = useState<BreakpointObservation>(breakpointObserver.current);
 
-  // return breakpoint
-  return breakpoint
+    useEffect(() => {
+        // subscribe to the breakpointObserver
+        const subscription = breakpointObserver.current$
+            .pipe(
+                // filtered unless different from the previously passed value
+                distinctUntilChanged()
+            )
+            .subscribe((observation) => {
+                // update the breakpoint with the new observation
+                setBreakpoint(observation);
+            });
+
+        // unsubscribe breakpointObserver on cleanup
+        return () => subscription.unsubscribe();
+    }, []);
+
+    // return breakpoint
+    return breakpoint;
 }

@@ -1,6 +1,4 @@
 // imports
-import React, {useState} from "react";
-import {createUseStyles} from "react-jss";
 import {
     ContentAlignment,
     ContentAlignmentValues,
@@ -12,7 +10,9 @@ import {
     JustificationValues,
     Wrapping,
     WrappingValues
-} from "react-lattice";
+} from "@nascentdigital/react-lattice";
+import React, {useState} from "react";
+import {createUseStyles} from "react-jss";
 import {
     Card,
     Grid

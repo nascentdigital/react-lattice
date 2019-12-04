@@ -2,16 +2,26 @@
 import {
     Breakpoint,
     Breakpoints,
-    IGridBreakpoints
-} from "react-lattice";
+    BreakpointsDefinition
+} from "@nascentdigital/lattice";
+import {
+    SpacingDefinition
+} from "@nascentdigital/react-lattice";
 
 // constants
-export const gridBreakpoints: IGridBreakpoints = {
-    xs: {width:    0, spacing:  2},
-    sm: {width:  680, spacing:  4},
-    md: {width:  960, spacing:  8},
-    lg: {width: 1280, spacing: 12},
-    xl: {width: 1920, spacing: 16}
+export const gridBreakpoints: BreakpointsDefinition = {
+    xs: 0,
+    sm: 600,
+    md: 960,
+    lg: 1280,
+    xl: 1920
+};
+export const gridSpacing: SpacingDefinition = {
+    xs: 2,
+    sm: 4,
+    md: 8,
+    lg: 12,
+    xl: 16
 };
 
 // exports
@@ -63,6 +73,6 @@ function getBreakpointWidth(breakpoint: Breakpoint) {
     }
 
     // return width
-    return gridBreakpoint.width;
+    return gridBreakpoint;
 
 }

@@ -1,11 +1,11 @@
 // imports
-import {create as createJss} from "jss";
-import preset from "jss-preset-default";
-import React, {HTMLAttributes} from "react";
 import {
     IResponsiveValue,
     isResponsiveValue
-} from "../../types";
+} from "@nascentdigital/lattice";
+import {create as createJss} from "jss";
+import preset from "jss-preset-default";
+import React, {HTMLAttributes} from "react";
 import {GridStyle} from "./GridStyle";
 import {
     ContentAlignment,
