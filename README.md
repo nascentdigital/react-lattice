@@ -15,7 +15,7 @@ npm i -s @nascentdigital/react-lattice
 ```tsx
 // imports
 import * as React from "react";
-import {createGrid} from "react-lattice";
+import {createGrid} from "@nascentdigital/react-lattice";
 
 // define Grid (can be customized)
 const Grid = createGrid();
