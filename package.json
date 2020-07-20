@@ -31,7 +31,7 @@
         "deploy": "gh-pages -d docs"
     },
     "dependencies": {
-        "@nascentdigital/lattice": "^1.1.1",
+        "@nascentdigital/lattice": "^1.2.0",
         "jss": "^10.3.0",
         "jss-preset-default": "^10.3.0",
         "rxjs": "^6.6.0"
