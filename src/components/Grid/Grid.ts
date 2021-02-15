@@ -1,12 +1,8 @@
 // imports
-import {
-    IResponsiveValue,
-    isResponsiveValue
-} from "@nascentdigital/lattice";
-import {create as createJss} from "jss";
-import preset from "jss-preset-default";
-import React, {HTMLAttributes} from "react";
-import {GridStyle} from "./GridStyle";
+import { IResponsiveValue, isResponsiveValue } from '@nascentdigital/lattice'
+import React, { HTMLAttributes } from 'react'
+import { jss } from '../jss'
+import { GridStyle } from './GridStyle'
 import {
     ContentAlignment,
     Direction,
@@ -19,14 +15,7 @@ import {
     Justification,
     Spacing,
     Wrapping
-} from "./GridTypes";
-
-
-// constants
-const jss = createJss({
-    createGenerateId: () => (rule) => rule.key
-});
-jss.setup(preset());
+} from './GridTypes'
 
 
 // types
@@ -50,9 +39,9 @@ export interface IProps extends HTMLAttributes<HTMLDivElement> {
 export function createGrid(options?: IGridOptions): React.FC<IProps> {
 
     // create style
-    const gridStyle = new GridStyle(options);
-    const styles = jss.createStyleSheet(gridStyle.create())
-        .attach();
+    const gridStyle = new GridStyle(options)
+    jss.createStyleSheet(gridStyle.create(), { meta: 'lattice/grid' })
+        .attach()
 
     // component definition
     return (props: IProps) => {
@@ -61,7 +50,7 @@ export function createGrid(options?: IGridOptions): React.FC<IProps> {
         const {
             className,
             children,
-            tag = "div",
+            tag = 'div',
             container = false,
             item = false,
             direction,
@@ -74,77 +63,76 @@ export function createGrid(options?: IGridOptions): React.FC<IProps> {
             order,
             flex,
             ...htmlProps
-        } = props;
+        } = props
 
         // create style
-        const classNames = [];
+        const classNames = []
 
         // apply container styles (if applicable)
-        const classes = styles.classes;
         if (container) {
 
             // add base class
-            classNames.push(classes[gridStyle.getContainerClass()]);
+            classNames.push(gridStyle.getContainerClass())
 
             // add content layout classes
             gridStyle.getContainerDirectionClasses(direction)
                 .forEach((key) => {
-                    classNames.push(classes[key]);
-                });
+                    classNames.push(key)
+                })
 
             gridStyle.getContainerWrappingClasses(wrap)
                 .forEach((key) => {
-                    classNames.push(classes[key]);
-                });
+                    classNames.push(key)
+                })
 
             gridStyle.getContainerJustificationClasses(justify)
                 .forEach((key) => {
-                    classNames.push(classes[key]);
-                });
+                    classNames.push(key)
+                })
 
             gridStyle.getContainerContentAlignmentClasses(alignContent)
                 .forEach((key) => {
-                    classNames.push(classes[key]);
-                });
+                    classNames.push(key)
+                })
 
             gridStyle.getContainerItemAlignmentClasses(alignItems)
                 .forEach((key) => {
-                    classNames.push(classes[key]);
-                });
+                    classNames.push(key)
+                })
 
             const spacingValues = isResponsiveValue(spacing)
                 ? spacing
-                : {xs: spacing, sm: spacing, md: spacing, lg: spacing, xl: spacing};
+                : {xs: spacing, sm: spacing, md: spacing, lg: spacing, xl: spacing}
             gridStyle.getContainerSpacingClasses(spacingValues)
                 .forEach((key) => {
-                    classNames.push(classes[key]);
-                });
+                    classNames.push(key)
+                })
         }
 
         // apply item styles (if applicable)
         if (item) {
 
             // mark as item
-            classNames.push(classes[gridStyle.getItemClass()]);
+            classNames.push(gridStyle.getItemClass())
 
             // add layout classes
             gridStyle.getItemOrderClasses(order)
                 .forEach((key) => {
-                    classNames.push(classes[key]);
-                });
+                    classNames.push(key)
+                })
             gridStyle.getItemOffsetClasses(offset)
                 .forEach((key) => {
-                    classNames.push(classes[key]);
-                });
+                    classNames.push(key)
+                })
             gridStyle.getItemFlexClasses(flex)
                 .forEach((key) => {
-                    classNames.push(classes[key]);
-                });
+                    classNames.push(key)
+                })
         }
 
         // add external classes (if any)
         if (className !== undefined) {
-            classNames.push(className);
+            classNames.push(className)
         }
 
         // render
@@ -152,8 +140,8 @@ export function createGrid(options?: IGridOptions): React.FC<IProps> {
             tag,
             {
                 ...htmlProps,
-                className: classNames.join(" ")
+                className: classNames.join(' ')
             },
-            children);
-    };
+            children)
+    }
 }
