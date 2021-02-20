@@ -1,6 +1,6 @@
 // imports
 import {BreakpointsDefinition} from "@nascentdigital/lattice";
-import {Spacing, SpacingDefinition} from "./components/Grid";
+import {Spacing, SpacingDefinition} from "./components/layout/Grid";
 
 
 // types

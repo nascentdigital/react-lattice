@@ -7,7 +7,7 @@ import {
     isResponsiveValue,
     ResponsiveValueIterator
 } from '@nascentdigital/lattice'
-import { LatticeDefaults } from '../../LatticeDefaults'
+import { LatticeDefaults } from '../../../LatticeDefaults'
 import {
     ContentAlignment,
     ContentAlignmentValues,

@@ -5,7 +5,7 @@ import {
     IResponsiveValue,
     MediaQueryFactory
 } from '@nascentdigital/lattice'
-import { LatticeDefaults } from '../../LatticeDefaults'
+import { LatticeDefaults } from '../../../LatticeDefaults'
 import { IContainerOptions } from './ContainerTypes'
 
 

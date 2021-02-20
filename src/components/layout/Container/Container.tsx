@@ -1,7 +1,7 @@
 import { IResponsiveValue, isResponsiveValue, ResponsiveValueIterator } from '@nascentdigital/lattice'
 import classNames from 'classnames'
 import React, { HTMLAttributes } from 'react'
-import { jss } from '../jss'
+import { jss } from '../../jss'
 import { ContainerStyle } from './ContainerStyle'
 import { IContainerOptions } from './ContainerTypes'
 

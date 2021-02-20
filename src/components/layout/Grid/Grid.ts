@@ -1,7 +1,7 @@
 // imports
 import { IResponsiveValue, isResponsiveValue } from '@nascentdigital/lattice'
 import React, { HTMLAttributes } from 'react'
-import { jss } from '../jss'
+import { jss } from '../../jss'
 import { GridStyle } from './GridStyle'
 import {
     ContentAlignment,
