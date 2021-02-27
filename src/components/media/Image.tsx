@@ -1,9 +1,8 @@
 import classNames from 'classnames'
 import React, { HTMLAttributes, useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
-import { jss } from '../jss'
-import { defaultLoader, LoaderType } from './loaders'
-
+import { jss, sheets } from '../jss'
+import { defaultLoader, getLoaderFunction, LoaderParams, LoaderType } from './loaders'
 
 // types
 type State = 'loading' | 'loaded' | 'ready';
@@ -57,12 +56,23 @@ export function Image({
         setState('loaded')
     }
 
+    // define image loader params
+    const loaderParams: LoaderParams = {
+        src,
+        width,
+        height,
+        format: 'original',
+        quality: 80,
+        focus: 'center'
+    }
+    const loaderFn = getLoaderFunction(loader)
+
     // create preview (if required)
     let previewImage
     if (preview) {
         previewImage = (
             <img className={classes.preview}
-                 src={previewUrl.href}
+                 src={loaderFn(getPreviewParams(loaderParams, 10))}
                  alt="" />
         )
     }
@@ -70,12 +80,8 @@ export function Image({
     // create image
     let image = null
     if (inView) {
-        const imageUrl = new URL(src)
-        if (width) {
-            imageUrl.searchParams.append('w', width.toString())
-        }
         image = <img className={classes.image}
-                     src={imageUrl.href}
+                     src={loaderFn(loaderParams)}
                      onLoad={imageLoaded}
                      alt={alt}
                      {...htmlProps} />
@@ -83,23 +89,22 @@ export function Image({
 
     // render
     return (
-        <div ref={inViewRef}
-             className={classNames(className, classes.imageWrap, state)}
-             style={{paddingBottom: width && height ? `${(height / width) * 100}%` : 0}}>
-            {previewImage}
-            {image}
+        <div className={className}>
+            <div ref={inViewRef}
+                 className={classNames(classes.imageWrap, state)}
+                 style={{paddingBottom: width && height ? `${(height / width) * 100}%` : 0}}>
+                {previewImage}
+                {image}
+            </div>
         </div>
     )
 }
 
 
 // styles
-const styleSheet = jss.createStyleSheet({
+const stylesheet = jss.createStyleSheet({
     imageWrap: {
         position: 'relative',
-        paddingBottom: ({media}) => media
-            ? ``
-            : '0',
         '&.ready $preview': {
             opacity: 0
         },
@@ -121,4 +126,12 @@ const styleSheet = jss.createStyleSheet({
         transition: ({preview}) => preview ? 'opacity 400ms ease-in' : 'none'
     }
 }, {meta: 'lattice/image'}).attach()
-const classes = styleSheet.classes
+const classes = stylesheet.classes
+sheets.add(stylesheet)
+
+// helper functions
+function getPreviewParams(params: LoaderParams, previewWidth: number): LoaderParams {
+    const { width, height, ...rest } = params
+    const previewHeight = Math.round(previewWidth * height / width)
+    return { width: previewWidth, height: previewHeight, ...rest }
+}

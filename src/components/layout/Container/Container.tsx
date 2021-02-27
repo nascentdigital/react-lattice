@@ -1,7 +1,7 @@
 import { IResponsiveValue, isResponsiveValue, ResponsiveValueIterator } from '@nascentdigital/lattice'
 import classNames from 'classnames'
 import React, { HTMLAttributes } from 'react'
-import { jss } from '../../jss'
+import {jss, sheets} from '../../jss'
 import { ContainerStyle } from './ContainerStyle'
 import { IContainerOptions } from './ContainerTypes'
 
@@ -19,8 +19,9 @@ export function createContainer(options?: IContainerOptions): React.FC<Props> {
 
     // create style
     const containerStyle = new ContainerStyle(options)
-    jss.createStyleSheet(containerStyle.create(), { meta: 'lattice/container' })
+    const stylesheet = jss.createStyleSheet(containerStyle.create(), { meta: 'lattice/container' })
         .attach()
+    sheets.add(stylesheet)
 
     // component definition
     return ({

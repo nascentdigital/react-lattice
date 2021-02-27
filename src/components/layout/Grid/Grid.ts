@@ -1,8 +1,8 @@
 // imports
-import { IResponsiveValue, isResponsiveValue } from '@nascentdigital/lattice'
-import React, { HTMLAttributes } from 'react'
-import { jss } from '../../jss'
-import { GridStyle } from './GridStyle'
+import {IResponsiveValue, isResponsiveValue} from '@nascentdigital/lattice'
+import React, {HTMLAttributes} from 'react'
+import {jss, sheets} from '../../jss'
+import {GridStyle} from './GridStyle'
 import {
     ContentAlignment,
     Direction,
@@ -40,8 +40,9 @@ export function createGrid(options?: IGridOptions): React.FC<IProps> {
 
     // create style
     const gridStyle = new GridStyle(options)
-    jss.createStyleSheet(gridStyle.create(), { meta: 'lattice/grid' })
+    const stylesheet = jss.createStyleSheet(gridStyle.create(), {meta: 'lattice/grid'})
         .attach()
+    sheets.add(stylesheet)
 
     // component definition
     return (props: IProps) => {
